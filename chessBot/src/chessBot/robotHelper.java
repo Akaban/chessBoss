@@ -19,18 +19,8 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.Scalar;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
-
-
 public class robotHelper {
 	
-	static{ System.loadLibrary(Core.NATIVE_LIBRARY_NAME); }
 	
 	static final int minusScreenZoneFactor = 7;
 	static final int translateScreenZoneFactor = 8;
@@ -114,84 +104,6 @@ public class robotHelper {
 		return ret;
 	}
 	
-	public static Mat getBiggestContour(List<MatOfPoint> contours)
-	{
-		MatOfPoint ret = null;
-		int max = 0;
-		
-		for(MatOfPoint m : contours)
-		{
-			Mat mm = (Mat)m;
-			System.out.println(mm.type());
-			Mat mm_one = new Mat(mm.rows(),mm.cols(),CvType.CV_8UC1);
-			mm.convertTo(mm_one, CvType.CV_8UC1);
-			System.out.println(mm_one.channels());
-			int nonzero=Core.countNonZero(mm_one);
-			if (nonzero > max)
-			{
-				ret = m;
-				max=nonzero;
-			}
-		}
-		
-		return ((Mat)ret);
-	}
-	
-	public static double matchContours(BufferedImage img1,BufferedImage img2) throws IOException
-	{
-		img1 = toBufferedImageOfType(img1,BufferedImage.TYPE_3BYTE_BGR);
-		img2 = toBufferedImageOfType(img2,BufferedImage.TYPE_3BYTE_BGR);
-		
-		int img1x = img1.getWidth();
-		int img1y = img1.getHeight();
-		int img2x = img2.getWidth();
-		int img2y = img2.getHeight();
-		
-		Mat mat1 = new Mat(img1x,img1y,CvType.CV_8UC3);
-		Mat mat1gscale = new Mat(img1x,img1y,CvType.CV_8UC1);
-		
-		byte[] pixels = ((DataBufferByte) img1.getRaster().getDataBuffer()).getData();
-		mat1.put(0, 0, pixels);
-		
-		
-		Mat mat2 = new Mat(img2x,img2y,CvType.CV_8UC3);
-		Mat mat2gscale = new Mat(img2x,img2y,CvType.CV_8UC1);
-		byte[] pixels1 = ((DataBufferByte) img2.getRaster().getDataBuffer()).getData();
-		mat1.put(0, 0, pixels1);
-		
-		
-		Mat mat2gscale1 = new Mat(img2x,img2y,CvType.CV_8UC1);
-		Mat mat1gscale1 = new Mat(img1x,img1y,CvType.CV_8UC1);
-		
-		Imgproc.cvtColor(mat1, mat1gscale, Imgproc.COLOR_RGB2GRAY);
-		Imgproc.cvtColor(mat2, mat2gscale, Imgproc.COLOR_RGB2GRAY);
-		
-		Imgproc.threshold(mat1gscale, mat1gscale1, 127, 255, Imgproc.THRESH_TOZERO);
-		Imgproc.threshold(mat2gscale, mat2gscale1, 127, 255, Imgproc.THRESH_TOZERO);
-		
-		List<MatOfPoint> contours1 = new ArrayList<MatOfPoint>();
-		Imgproc.findContours(mat1gscale1, contours1, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
-		
-		List<MatOfPoint> contours2 = new ArrayList<MatOfPoint>();
-		Imgproc.findContours(mat2gscale1, contours2, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
-			
-		//debug only
-		BufferedImage gray = new BufferedImage(img2x,img2y,BufferedImage.TYPE_BYTE_GRAY);
-		byte[] data = ((DataBufferByte) gray.getRaster().getDataBuffer()).getData();
-		mat1gscale1.get(0, 0, data);
-		ImageIO.write(gray, "png", new File(Main.path + "current"+doing+".png"));
-		Mat image_contour = Mat.zeros(img2x, img2y, CvType.CV_8UC3);
-		for(int i=0; i < contours1.size(); i++) Imgproc.drawContours(image_contour, contours1,i,new Scalar (255,255,255),-1);
-		Imgcodecs.imwrite(Main.path + "contours-" + doing + ".jpg",image_contour);
-		doing++;	
-		//debug only
-		
-		double match = 0d;
-		if (contours1.size() == 0) return (-1d); //pas de contours trouvé donc probablement vide
-		 match = Imgproc.matchShapes(getBiggestContour(contours1),getBiggestContour(contours2),Imgproc.CV_CONTOURS_MATCH_I1,0d);
-		return match;
-		
-	}
 	
 	public static BufferedImage ungrow(BufferedImage img,int decay)
 	{
@@ -213,11 +125,11 @@ public class robotHelper {
 		
 		double min = 10d;
 		int minp=0;
-		double match;
+		double match = 0;//metrique
 			for(int p=0; p < 6; p++)
 			{
 				BufferedImage dataPiece = Piece.dataPiece[p]; 
-				match = matchContours(lookingAt,dataPiece);
+				//match = matchContours(lookingAt,dataPiece);
 				if(match == (-1d)) return null;
 				System.out.println("Ressemblance avec la piece " + Piece.toStringEnum(Piece.mapPiece[p])+"= " + match);
 				if (match < min)
@@ -293,42 +205,6 @@ public class robotHelper {
 		int[] ret ={minxv,maxyv,minxb,minyb};
 		return ret ;
 	}
-	
-/*	public static void checkImage(Rectangle rectangle) throws AWTException, IOException
-	{
-		BufferedImage img,img2;
-		int sizecase = (int)rectangle.getWidth();
-		adjustRectangle(rectangle,sizecase);
-		
-		img = toBufferedImageOfType(new Robot().createScreenCapture(rectangle),BufferedImage.TYPE_3BYTE_BGR);
-		img2 = toBufferedImageOfType(ImageIO.read(new File("C:\\Users\\Seven\\workspace\\chessBot\\data\\black-rook.png")),BufferedImage.TYPE_3BYTE_BGR);
-		
-		Mat mat = new Mat((int)rectangle.getWidth(),(int)rectangle.getWidth(),CvType.CV_8UC3);
-		byte[] pixels = ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
-		mat.put(0, 0, pixels);
-		Mat matgscale = mat.clone();
-		
-		Mat mat1 = new Mat((int)rectangle.getWidth(),(int)rectangle.getWidth(),CvType.CV_8UC3);
-		byte[] pixels1 = ((DataBufferByte) img2.getRaster().getDataBuffer()).getData();
-		mat1.put(0, 0, pixels1);
-		Mat mat1gscale = mat1.clone();
-		
-		Imgproc.cvtColor(mat, matgscale, Imgproc.COLOR_RGB2GRAY);
-		Imgproc.cvtColor(mat1, mat1gscale, Imgproc.COLOR_RGB2GRAY);
-		Imgproc.threshold(matgscale, mat, 127, 255, Imgproc.THRESH_TOZERO);
-		Imgproc.threshold(mat1gscale, mat1, 127, 255, Imgproc.THRESH_TOZERO);
-		
-		List<MatOfPoint> contours1 = new ArrayList<MatOfPoint>();
-		Imgproc.findContours(mat, contours1, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
-		
-		List<MatOfPoint> contours2 = new ArrayList<MatOfPoint>();
-		Imgproc.findContours(mat1, contours2, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
-			
-		double match = Imgproc.matchShapes((Mat)contours1.get(0),(Mat)contours2.get(0),Imgproc.CV_CONTOURS_MATCH_I1,0d);
-		System.out.println(match);
-		
-		
-	}*/
 	
 	public static void screenshotMaker(Rectangle rectangle,String name) throws AWTException{
 		BufferedImage img;
