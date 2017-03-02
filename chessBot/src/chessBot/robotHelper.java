@@ -143,7 +143,6 @@ public class robotHelper {
 				if (distance < maxDistance) ret.setRGB(i, j, Color.BLACK.getRGB());
 				else ret.setRGB(i, j, Color.WHITE.getRGB());
 				
-				
 			}
 		}
 		

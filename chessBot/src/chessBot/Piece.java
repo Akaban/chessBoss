@@ -14,9 +14,7 @@ public class Piece {
 	
 	private nomPiece type;
 	private playColor.color couleur;
-	
-	
-	
+		
 	public static BufferedImage[] dataPiece;
 	public static final nomPiece[] mapPiece = {nomPiece.Pawn,nomPiece.Knight,nomPiece.King,nomPiece.Queen,nomPiece.Bishop,nomPiece.Rook,nomPiece.Empty};
 	public static final playColor.color[] mapColor = {playColor.color.WHITE,playColor.color.BLACK};
@@ -28,8 +26,6 @@ public class Piece {
 		this.couleur = couleur;
 	}
 	
-	
-
 	
 	public static String toStringEnum(nomPiece type)
 	{
@@ -97,17 +93,12 @@ public class Piece {
 		
 		if(this.couleur == playColor.color.WHITE) ret = Character.toUpperCase(ret);
 		
-		return ret;
-	
-		
-		
+		return ret;		
 	}
 	
 	public static void initImageData(Echiquier e) throws IOException, AWTException
 	{
-		
-
-		
+			
 		int[][] pieces_debut = {
 				{1,0}, {0,1}, {0,4} , {0,3},
 				{0,2}, {0,0} , {2,0}};

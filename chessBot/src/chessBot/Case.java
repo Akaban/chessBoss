@@ -4,12 +4,15 @@ import java.awt.AWTException;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Case {
 	
 	private Piece piece;
-	private int x; //Coordonn�es dans le rep�re de l'�chiquier.
+	private int x; //Coordonnees dans le repere de l'echiquier.
 	private int y;
 	private int xe;
 	private int ye;
@@ -44,8 +47,10 @@ public class Case {
 	{
 		Rectangle rec = adjustedRectangle;
 		BufferedImage img = new Robot().createScreenCapture(rec);
-		Piece.nomPiece piece=robotHelper.classification(img);
+		img = robotHelper.traitementContour(img, this.color);
+		Piece.nomPiece piece = robotHelper.classification(img);
 		this.piece = new Piece(piece,playColor.color.WHITE); // pas de distinction blanc noir encore
+		ImageIO.write(img, "png", new File(Main.path + "looking"+xe+"-"+ye+".png"));
 	}
 	
 	public boolean isEmpty()

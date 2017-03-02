@@ -14,7 +14,8 @@ import chessBot.robotHelper;
 public class Main {
 
 	static final playColor.color couleurDeJeu = playColor.color.WHITE;
-	static final String path = "./data/";
+	//static final String path = "./data/";
+	static final String path = "C:\\Users\\Adrien\\git\\botance\\chessBot\\data\\";
 	static int x;
 	static int y;
 
