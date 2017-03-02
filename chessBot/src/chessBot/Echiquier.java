@@ -85,6 +85,27 @@ public class Echiquier {
 				
 			}
 	}
+	
+	public Case[] PGNtoPtr(String pgn)
+	{
+		String pgn1 = pgn.substring(0, 2);
+		String pgn2 = pgn.substring(2,4);
+		
+		char pgn1_col = pgn1.charAt(0);
+		char pgn2_col = pgn2.charAt(0);
+		int pgn1_row = Character.getNumericValue(pgn1.charAt(1));
+		int pgn2_row = Character.getNumericValue(pgn2.charAt(1));
+		
+		int pgn1_coli = ((int) pgn1_col) - 97;
+		int pgn2_coli = ((int) pgn2_col) - 97;
+		
+		Case[] ret = {area[pgn1_row][pgn1_coli],area[pgn2_row][pgn2_coli]};
+		
+		return ret;
+	}
+	
+	//Faire des fonctions de détections de roque et savoir également détecter quand le mec a joué (un changement).
+	
 
 
 }

@@ -79,8 +79,8 @@ public class robotHelper {
 				i_min = i;
 			}
 		}
-		System.out.println(min);
-		System.out.println(Piece.mapPiece[i_min].toString());
+	//	System.out.println(min);
+	//	System.out.println(Piece.mapPiece[i_min].toString());
 		return Piece.mapPiece[i_min];
 		
 
@@ -121,6 +121,7 @@ public class robotHelper {
 	
 	public static BufferedImage traitementContour(BufferedImage img,boolean color)
 	{
+		//TODO Besoin de détection de la couleur de case
 		Color couleurFond;
 		if (color)
 			couleurFond = new Color(118,150,86); //Vert Chess
@@ -251,6 +252,21 @@ public class robotHelper {
 		
 		int[] ret ={minxv,maxyv,minxb,minyb};
 		return ret ;
+	}
+	
+	public static BufferedImage simpleScreen(Rectangle r)
+	{
+		BufferedImage ret = null;
+		
+		try {
+			ret = new Robot().createScreenCapture(r);
+		}
+		catch(AWTException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return ret;
 	}
 	
 	public static void screenshotMaker(Rectangle rectangle,String name) throws AWTException{

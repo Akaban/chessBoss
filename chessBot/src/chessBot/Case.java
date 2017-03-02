@@ -1,6 +1,8 @@
 package chessBot;
 
 import java.awt.AWTException;
+import java.awt.Color;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
@@ -90,6 +92,33 @@ public class Case {
 	public boolean getColor()
 	{
 		return this.color;
+	}
+	public Color detectColor()
+	{
+		int sizecase = (int)rectangle.getWidth();
+		Point p = rectangle.getLocation();
+		p.translate(sizecase/10, sizecase/10);
+		
+		Rectangle r = new Rectangle(p.x,p.y,sizecase/10,sizecase/3);
+		
+		BufferedImage img = robotHelper.simpleScreen(r);
+		
+		int red=0;
+		int green=0;
+		int blue=0;
+		
+		int taille = img.getHeight() * img.getWidth();
+		
+		for(int i=0; i < img.getWidth(); i++)
+			for(int j=0;j < img.getHeight();j++)
+			{
+				Color c = new Color(img.getRGB(i, j));
+				red += c.getRed();
+				green += c.getGreen();
+				blue += c.getBlue();
+			}
+		
+		return new Color(red/taille,green/taille,blue/taille);
 	}
 
 }
