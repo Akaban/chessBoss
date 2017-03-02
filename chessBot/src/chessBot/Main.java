@@ -14,7 +14,7 @@ import chessBot.robotHelper;
 public class Main {
 
 	static final playColor.color couleurDeJeu = playColor.color.WHITE;
-	static final String path = "C:\\Users\\Seven\\workspace\\chessBot\\data\\";
+	static final String path = "./data/";
 	static int x;
 	static int y;
 
@@ -36,12 +36,30 @@ public class Main {
 		
 		System.out.println(size);
 		
-		Piece.initImageData();
 		Echiquier e = new Echiquier(mouseLoc1.x,mouseLoc1.y,size);
-		//e.readPieces();
+		
+		Piece.initImageData(e);
+		
 		Case[][] echiquier = e.getEchiquier();
 		
-		echiquier[0][0].findPiece();
+		e.readPieces();
+		
+		for(int j=0; j < 8 ; j++)
+		{
+			for(int i=0;  i< 8; i++)
+			{
+				Case c = echiquier[j][i];
+				System.out.print(c.getPiece().toChar());
+			
+			}
+			System.out.print("\n");
+		}
+		
+		
+		
+		//echiquier[0][0].findPiece();
+		
+		//robotHelper.whatDoISee(e);
 		
 		/*for(int j=0; j < 8 ; j++)
 		{

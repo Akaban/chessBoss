@@ -2,12 +2,14 @@ package chessBot;
 
 import java.awt.AWTException;
 import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Case {
 	
 	private Piece piece;
-	private int x; //Coordonnées dans le repère de l'échiquier.
+	private int x; //Coordonnï¿½es dans le repï¿½re de l'ï¿½chiquier.
 	private int y;
 	private int xe;
 	private int ye;
@@ -34,14 +36,15 @@ public class Case {
 		this.color=color;
 		this.rectangle = new Rectangle(x,y,sizecase,sizecase);
 		Rectangle r = new Rectangle(x,y,sizecase,sizecase);
-		robotHelper.adjustRectangle(r, Main.size/17);
+		robotHelper.adjustRectangle(r, 0);
 		this.adjustedRectangle = r;
 	}
 	
 	public void findPiece() throws AWTException, IOException
 	{
 		Rectangle rec = adjustedRectangle;
-		Piece.nomPiece piece=robotHelper.findPiece(rec,this.color,0);
+		BufferedImage img = new Robot().createScreenCapture(rec);
+		Piece.nomPiece piece=robotHelper.classification(img);
 		this.piece = new Piece(piece,playColor.color.WHITE); // pas de distinction blanc noir encore
 	}
 	

@@ -1,5 +1,7 @@
 package chessBot;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -8,16 +10,17 @@ import javax.imageio.ImageIO;
 
 public class Piece {
 	
-	enum nomPiece { Pawn,Knight,King,Queen,Bishop,Rook };
+	enum nomPiece { Pawn,Knight,King,Queen,Bishop,Rook,Empty };
 	
 	private nomPiece type;
 	private playColor.color couleur;
 	
 	
+	
 	public static BufferedImage[] dataPiece;
-	public static final nomPiece[] mapPiece = {nomPiece.Pawn,nomPiece.Knight,nomPiece.King,nomPiece.Queen,nomPiece.Bishop,nomPiece.Rook};
+	public static final nomPiece[] mapPiece = {nomPiece.Pawn,nomPiece.Knight,nomPiece.King,nomPiece.Queen,nomPiece.Bishop,nomPiece.Rook,nomPiece.Empty};
 	public static final playColor.color[] mapColor = {playColor.color.WHITE,playColor.color.BLACK};
-
+	
 	
 	public Piece(nomPiece type,playColor.color couleur)
 	{
@@ -100,20 +103,31 @@ public class Piece {
 		
 	}
 	
-	public static void initImageData() throws IOException
+	public static void initImageData(Echiquier e) throws IOException, AWTException
 	{
-		String color;
-		dataPiece = new BufferedImage[6];
-		String couleur="white";
-		int countPiece=0;
-		for(nomPiece piece : nomPiece.values())
+		
+
+		
+		int[][] pieces_debut = {
+				{1,0}, {0,1}, {0,4} , {0,3},
+				{0,2}, {0,0} , {2,0}};
+		
+		dataPiece = new BufferedImage[7];
+
+		for(int countPiece=0; countPiece < 7 ; countPiece++)
 		{
-			String path1 = Main.path + couleur + "-" + toStringEnum(piece)+".png";
-			System.out.println(path1);
-			dataPiece[countPiece] = robotHelper.traitementContour(ImageIO.read(new File(path1)),false);
-			ImageIO.write(dataPiece[countPiece], "png", new File(Main.path + "piece"+couleur+countPiece+".png"));
+			int[] coord = pieces_debut[countPiece];
+			Case c;
 			
-			countPiece++;
+			c = e.getEchiquier()[coord[0]][coord[1]];
+			
+			BufferedImage lookingAt = robotHelper.traitementContour(new Robot().createScreenCapture(c.getRectangle()),c.getColor());
+			
+			String casename = toStringEnum(mapPiece[countPiece]);
+			ImageIO.write(lookingAt, "png", new File(Main.path + casename+".png"));
+			
+			dataPiece[countPiece] = lookingAt;
+							
 		}
 	
 		

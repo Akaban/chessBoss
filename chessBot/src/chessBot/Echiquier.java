@@ -43,16 +43,8 @@ public class Echiquier {
 	{
 		for(int i=0; i < 8 ; i++) for(int j=0; j <8; j++)
 			{
-			try{
 			area[j][i].findPiece();
-			}
-			catch (java.lang.IndexOutOfBoundsException e)
-			{
-				e.printStackTrace();
-				System.out.println("Robot will move to the problematic case");
-				Case c = area[i][j];
-				(new Robot()).mouseMove((int)c.getRectangle().getCenterX(),(int) c.getRectangle().getCenterY());
-			}
+				
 			}
 	}
 

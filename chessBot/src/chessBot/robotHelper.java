@@ -19,6 +19,8 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import chessBot.Piece.nomPiece;
+
 public class robotHelper {
 	
 	
@@ -37,6 +39,52 @@ public class robotHelper {
 		//rec.translate(0, -Math.round(translateCorrection/4f));
 	}
 	
+	public static int distance(BufferedImage img1, BufferedImage img2){
+		
+		int ret=0;
+		
+		for(int i=0; i < img1.getWidth(); i++)
+		{
+			for(int j=0; j < img1.getWidth(); j++)
+			{
+				int x = 0;
+				int y = 0;
+				if( (new Color(img1.getRGB(i, j))).equals(Color.WHITE)){
+					x = 1;
+				}
+				if( (new Color(img2.getRGB(i, j))).equals(Color.WHITE)){
+					y = 1;
+				}
+				
+				ret += Math.abs(x - y);
+				
+			}
+		}
+		
+		return ret;
+	}
+	
+	
+	public static nomPiece classification(BufferedImage img){
+		
+		int min = 1000;
+		int i_min = 0;
+		
+		for(int i =0; i < 7; i++)
+		{
+			int d = distance(img, Piece.dataPiece[i]);
+			
+			if (d < min){
+				min = d;
+				i_min = i;
+			}
+		}
+		System.out.println(min);
+		System.out.println(Piece.mapPiece[i_min].toString());
+		return Piece.mapPiece[i_min];
+		
+
+	}
 		
 	public static BufferedImage toBufferedImageOfType(BufferedImage original, int type) {
 	    if (original == null) {
