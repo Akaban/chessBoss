@@ -34,6 +34,44 @@ public class Echiquier {
 
 	}
 	
+	public String getFen()
+	{
+		String ret="";
+		int countEmpty=0;
+		
+		for(int i=0; i < 8 ; i++)
+		{
+			for(int j=0; j <8; j++)
+		{
+			Case c = area[i][j];
+			
+			if (c.isEmpty())
+			{
+				countEmpty++;
+			}
+			else
+			{
+				if (countEmpty > 0)
+				{
+					ret += countEmpty;
+					countEmpty=0;
+				}
+				ret += c.getPiece().toChar();
+			}
+			
+		}
+			if (countEmpty > 0)
+			{
+				ret += countEmpty;
+				countEmpty=0;
+			}
+			if (i < 7)ret += "/";
+		}
+		
+		return ret;
+		
+	}
+	
 	public Case[][] getEchiquier()
 	{
 		return area;

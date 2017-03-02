@@ -60,6 +60,11 @@ public class Piece {
 		return ret;
 		}
 	
+	public nomPiece getType()
+	{
+		return this.type;
+	}
+	
 	public char toChar()
 	{
 		char ret;
@@ -96,7 +101,7 @@ public class Piece {
 		return ret;		
 	}
 	
-	public static void initImageData(Echiquier e) throws IOException, AWTException
+	public static void initImageData(Echiquier e,boolean capture) throws IOException, AWTException
 	{
 			
 		int[][] pieces_debut = {
@@ -104,6 +109,9 @@ public class Piece {
 				{0,2}, {0,0} , {2,0}};
 		
 		dataPiece = new BufferedImage[7];
+		
+		if (capture) //S'il faut récupérer les screen des pièces selon pieces_debut
+		{
 
 		for(int countPiece=0; countPiece < 7 ; countPiece++)
 		{
@@ -119,6 +127,19 @@ public class Piece {
 			
 			dataPiece[countPiece] = lookingAt;
 							
+		}
+		
+		}
+		
+		else
+		{
+			for(int countPiece=0; countPiece < 7 ; countPiece++)
+			{
+				String casename = toStringEnum(mapPiece[countPiece]);
+				BufferedImage piece = ImageIO.read(new File(Main.path + casename + ".png"));
+				dataPiece[countPiece] = piece;
+			}
+			
 		}
 	
 		

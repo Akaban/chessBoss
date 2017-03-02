@@ -14,8 +14,10 @@ import chessBot.robotHelper;
 public class Main {
 
 	static final playColor.color couleurDeJeu = playColor.color.WHITE;
+	static final boolean capture = false; //si le bot doit capturer les screen des pieces 
+	
 	//static final String path = "./data/";
-	static final String path = "C:\\Users\\Adrien\\git\\botance\\chessBot\\data\\";
+	static final String path = "C:\\Users\\Seven\\Documents\\git\\chessBot\\data\\";
 	static int x;
 	static int y;
 
@@ -39,7 +41,7 @@ public class Main {
 		
 		Echiquier e = new Echiquier(mouseLoc1.x,mouseLoc1.y,size);
 		
-		Piece.initImageData(e);
+		Piece.initImageData(e,capture);
 		
 		Case[][] echiquier = e.getEchiquier();
 		
@@ -55,6 +57,8 @@ public class Main {
 			}
 			System.out.print("\n");
 		}
+		
+		System.out.println(e.getFen());
 		
 		
 		

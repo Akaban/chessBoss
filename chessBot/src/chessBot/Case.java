@@ -55,7 +55,7 @@ public class Case {
 	
 	public boolean isEmpty()
 	{
-		return (this.piece == null);
+		return (this.piece == null || this.piece.getType() == Piece.nomPiece.Empty);
 	}
 	
 	public char PieceToChar()
