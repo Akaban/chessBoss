@@ -15,10 +15,16 @@ public class Echiquier {
 	private boolean black_queenside;
 	private int nbCoups;
 	
-	private boolean turn; //0 blanc 1 noir
+	private playColor.color turn; 
 
 	public Echiquier(int startx,int starty,int size) {
 
+	this.turn = playColor.color.WHITE;
+	this.white_kingside = true;
+	this.white_queenside = true;
+	this.black_kingside = true;
+	this.black_queenside = true;
+	this.nbCoups = 1;
 	int sizecase = Math.round(size/8f);
 	this.area = new Case[8][8];
 	
@@ -40,6 +46,10 @@ public class Echiquier {
 	}
 	
 
+	}
+	
+	public playColor.color getTurn(){
+		return this.turn;
 	}
 	
 	public String getFen()
@@ -76,6 +86,8 @@ public class Echiquier {
 			if (i < 7)ret += "/";
 		}
 		
+		ret+=" w KQkq - 0 1";
+		
 		return ret;
 		
 	}
@@ -107,9 +119,13 @@ public class Echiquier {
 		int pgn1_coli = ((int) pgn1_col) - 97;
 		int pgn2_coli = ((int) pgn2_col) - 97;
 		
-		Case[] ret = {area[pgn1_row][pgn1_coli],area[pgn2_row][pgn2_coli]};
+		Case[] ret = {area[8-pgn1_row][pgn1_coli],area[8-pgn2_row][pgn2_coli]};
 		
 		return ret;
+	}
+	
+	public boolean isEquals(Echiquier echiquier){
+		return this.area == echiquier.getEchiquier();
 	}
 	
 	//Faire des fonctions de détections de roque et savoir également détecter quand le mec a joué (un changement).

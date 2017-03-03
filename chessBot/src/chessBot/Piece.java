@@ -92,7 +92,7 @@ public class Piece {
 			ret = 'r';
 			break;
 		default :
-			ret = '%';
+			ret = '.';
 				
 		}
 		

@@ -55,9 +55,9 @@ public class Case {
 	{
 		Rectangle rec = adjustedRectangle;
 		BufferedImage img = new Robot().createScreenCapture(rec);
-		img = robotHelper.traitementContour(img, this.detectColor());
-		Piece.nomPiece piece = robotHelper.classification(img);
-		this.piece = new Piece(piece,playColor.color.WHITE); // pas de distinction blanc noir encore
+		BufferedImage img2 = robotHelper.traitementContour(img, this.detectColor());
+		Piece.nomPiece piece = robotHelper.classification(img2);
+		this.piece = new Piece(piece, this.detectColorPiece(img));
 		ImageIO.write(img, "png", new File(Main.path + "looking"+xe+"-"+ye+".png"));
 	}
 	
@@ -170,6 +170,34 @@ public class Case {
 			return vert_select;
 		else
 			return blanc_select;
+		
+		
+	}
+	
+	public playColor.color detectColorPiece(BufferedImage img) throws AWTException{
+		
+		int size = (int)adjustedRectangle.getWidth();
+		int x = size/2;
+		int y = (int)(size * (2/3d));
+		
+		Color c = new Color(img.getRGB(x, y));
+		
+		if (c.getRed() > 150) //la case est blanche
+			return playColor.color.WHITE;
+		return playColor.color.BLACK;
+		
+	}
+	
+	public Point localisationPoint()
+	{
+		int size = (int)adjustedRectangle.getWidth();
+		int x = size/2;
+		int y = size/2;
+		
+		Point loc = adjustedRectangle.getLocation();
+		loc.translate(x, y);
+		
+		return loc;
 		
 		
 	}

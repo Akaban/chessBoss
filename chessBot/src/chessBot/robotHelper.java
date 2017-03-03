@@ -5,9 +5,11 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
+import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.DataBufferByte;
@@ -37,6 +39,20 @@ public class robotHelper {
 		rec.translate(-sizecase/translateCorrection, -sizecase/translateCorrection);
 		rec.translate(-Math.round(translateCorrection/2.5f),0);
 		//rec.translate(0, -Math.round(translateCorrection/4f));
+	}
+	
+	public static void jouerCoup(Case[] cases, Robot r){
+		
+		
+		for(Case c : cases){
+			Point loc = c.localisationPoint();
+			r.mouseMove(loc.x, loc.y);
+			r.delay(100);
+			r.mousePress(InputEvent.BUTTON1_MASK);
+			r.delay(100);
+			r.mouseRelease(InputEvent.BUTTON1_MASK);
+		}
+		
 	}
 	
 	public static int distance(BufferedImage img1, BufferedImage img2){

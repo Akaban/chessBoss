@@ -11,7 +11,7 @@ public class StockfishInterface {
 	private BufferedReader stockfishReader;
 	private OutputStreamWriter stockfishWriter;
 	
-	private static final String STOCKFISH = "";
+	private static final String STOCKFISH = "C:\\Users\\Seven\\Documents\\stockfish-8-win\\Windows\\stockfish_8_x64.exe";
 	
 	public StockfishInterface() throws IOException
 	{
@@ -37,13 +37,14 @@ public class StockfishInterface {
 		StringBuffer buffer = new StringBuffer();
 		Thread.sleep(wait);
 		try {
-			envoyerCommande("isready");
+			//envoyerCommande("isready");
 			while(true)
 			{
 				String retour = stockfishReader.readLine();
 				
-				if(retour.equals("readyok"))
+				if(retour.contains("bestmove"))
 				{
+					buffer.append(retour +"\n");
 					break; //On a récupéré toute la sortie
 				}
 				else {
@@ -63,7 +64,9 @@ public class StockfishInterface {
 	{
 		envoyerCommande("position fen " + fenstring);
 		envoyerCommande("go movetime " + wait);
-		return recevoirSortie(20 + wait).split("bestmove ")[1].split(" ")[0];
+		String s = recevoirSortie(20+wait);
+		System.out.println(s);
+		return s.split("bestmove ")[1].split(" ")[0];
 
 	}
 	

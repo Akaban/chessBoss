@@ -14,7 +14,7 @@ import chessBot.robotHelper;
 public class Main {
 
 	static final playColor.color couleurDeJeu = playColor.color.WHITE;
-	static final boolean capture = false; //si le bot doit capturer les screen des pieces 
+	static final boolean capture = true; //si le bot doit capturer les screen des pieces 
 	
 	//static final String path = "./data/";
 	static final String path = "C:\\Users\\Seven\\Documents\\git\\chessBot\\data\\";
@@ -29,8 +29,27 @@ public class Main {
 	    return (Math.sqrt(p.x * p.x + p.y * p.y));
 	    }
 
+	
+	public static void jeu(Echiquier e, StockfishInterface s, Robot r) throws IOException, InterruptedException{
+		
+		e.getEchiquier();
+		if(couleurDeJeu == e.getTurn()){ // a lui de jouer
+			
+			String coup = s.nextMove(e.getFen(), 1000);
+			Case[] cases = e.PGNtoPtr(coup);
+			robotHelper.jouerCoup(cases, r);
+			//mise a jour echiquier
+		}
+		else{ // pas a lui de jouer
+			// lecture
+		}
+		
+	}
+	
 	public static void main(String[] args) throws InterruptedException, AWTException, IOException
 	{
+		Robot r = new Robot();
+		
 		int[] coord = robotHelper.findEchiquierChess();
 		mouseLoc1 = new Point(coord[2],coord[3]);
 		mouseLoc2 = new Point(coord[0],coord[1]);
@@ -60,7 +79,9 @@ public class Main {
 		
 		System.out.println(e.getFen());
 		
+		StockfishInterface s = new StockfishInterface();
 		
+		jeu(e, s, r);
 		
 		//echiquier[0][0].findPiece();
 		
