@@ -39,7 +39,7 @@ public class Case {
 	
 	public Case(int x,int y,int xe,int ye, int sizecase,boolean color)
 	{
-		this.piece = null;
+		this.piece = new Piece(Piece.nomPiece.Empty,playColor.color.WHITE);
 		this.x = x;
 		this.y= y;
 		this.xe=xe;
@@ -64,6 +64,15 @@ public class Case {
 	public boolean isEmpty()
 	{
 		return (this.piece == null || this.piece.getType() == Piece.nomPiece.Empty);
+	}
+	
+	public void setEmpty()
+	{
+		this.piece.setEmpty();
+	}
+	
+	public void setPiece(Piece piece){
+		this.piece = piece;
 	}
 	
 	public char PieceToChar()
@@ -187,6 +196,7 @@ public class Case {
 		return playColor.color.BLACK;
 		
 	}
+	
 	
 	public Point localisationPoint()
 	{

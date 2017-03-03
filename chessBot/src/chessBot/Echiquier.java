@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Echiquier {
 
@@ -16,6 +17,10 @@ public class Echiquier {
 	private int nbCoups;
 	
 	private playColor.color turn; 
+	
+	public Echiquier(Echiquier e){
+		this.area = deepCopy(this.area);
+	}
 
 	public Echiquier(int startx,int starty,int size) {
 
@@ -46,6 +51,22 @@ public class Echiquier {
 	}
 	
 
+	}
+	
+	public int[][] simpleArea()
+	{
+		int[][] ret = new int[8][8];
+		
+		for(int i=0; i < 8; i++)
+		{
+			for(int j=0 ; j < 8; j++)
+			{
+				ret[i][j] = Piece.toIntEnum(area[i][j].getPiece().getType());
+				
+			}
+		}
+		
+		return ret;
 	}
 	
 	public playColor.color getTurn(){
@@ -86,10 +107,24 @@ public class Echiquier {
 			if (i < 7)ret += "/";
 		}
 		
-		ret+=" w KQkq - 0 1";
+		ret+= " w KQkq - 0 1";
 		
 		return ret;
 		
+	}
+	
+	public void updateEchiquier(Case[] cases){
+		Case c1 = cases[0];
+		Case c2 = cases[1];
+		c2.setPiece(c1.getPiece());
+		c1.setEmpty();
+	}
+	
+	public void inverseTurn(){
+		if (this.turn == playColor.color.WHITE)
+			this.turn = playColor.color.BLACK;
+		else
+			this.turn = playColor.color.WHITE;
 	}
 	
 	public Case[][] getEchiquier()
@@ -125,7 +160,59 @@ public class Echiquier {
 	}
 	
 	public boolean isEquals(Echiquier echiquier){
-		return this.area == echiquier.getEchiquier();
+		
+		for(int i=0; i < 8;i++)
+			for(int j=0;j < 8;j++)
+			{
+				
+				if(this.area[i][j].getPiece().getType() != echiquier.area[i][j].getPiece().getType())
+					return false;
+			}
+		
+		return true;
+	}
+	
+	
+	public static Case[][] deepCopy(Case[][] original) {
+	    if (original == null) {
+	        return null;
+	    }
+
+	    final Case[][] result = new Case[original.length][];
+	    for (int i = 0; i < original.length; i++) {
+	        result[i] = Arrays.copyOf(original[i], original[i].length);
+	        // For Java versions prior to Java 6 use the next:
+	        // System.arraycopy(original[i], 0, result[i], 0, original[i].length);
+	    }
+	    return result;
+	    
+	}
+	
+	public static int[][] deepCopy(int[][] original) {
+	    if (original == null) {
+	        return null;
+	    }
+
+	    final int[][] result = new int[original.length][];
+	    for (int i = 0; i < original.length; i++) {
+	        result[i] = Arrays.copyOf(original[i], original[i].length);
+	        // For Java versions prior to Java 6 use the next:
+	        // System.arraycopy(original[i], 0, result[i], 0, original[i].length);
+	    }
+	    return result;
+	    
+	}
+	
+	public static boolean equalSimpleArea(int[][] a1,int[][] a2)
+	{
+		for (int i=0; i < 8; i++)
+			for(int j=0; j < 8; j++)
+			{
+				if(a1[i][j] != a2[i][j])
+					return false;
+			}
+		
+		return true;
 	}
 	
 	//Faire des fonctions de détections de roque et savoir également détecter quand le mec a joué (un changement).

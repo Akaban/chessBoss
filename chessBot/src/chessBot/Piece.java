@@ -14,7 +14,7 @@ public class Piece {
 	
 	private nomPiece type;
 	private playColor.color couleur;
-		
+
 	public static BufferedImage[] dataPiece;
 	public static final nomPiece[] mapPiece = {nomPiece.Pawn,nomPiece.Knight,nomPiece.King,nomPiece.Queen,nomPiece.Bishop,nomPiece.Rook,nomPiece.Empty};
 	public static final playColor.color[] mapColor = {playColor.color.WHITE,playColor.color.BLACK};
@@ -26,6 +26,38 @@ public class Piece {
 		this.couleur = couleur;
 	}
 	
+	public static int toIntEnum(nomPiece type)
+	{
+		int ret;
+		
+		if (type == null) return 0;
+		
+		switch (type)
+		{
+		case Pawn :
+			ret = 1;
+			break;
+		case Knight :
+			ret = 2;
+			break;
+		case King :
+			ret = 3;
+			break;
+		case Queen :
+			ret = 4;
+			break;
+		case Bishop:
+			ret = 5;
+			break;
+		case Rook:
+			ret = 6;
+			break;
+		default :
+			ret = 0;
+				
+		}
+		return ret;
+		}
 	
 	public static String toStringEnum(nomPiece type)
 	{
@@ -59,6 +91,11 @@ public class Piece {
 		}
 		return ret;
 		}
+	
+	public void setEmpty()
+	{
+		this.type = nomPiece.Empty;
+	}
 	
 	public nomPiece getType()
 	{
@@ -146,4 +183,6 @@ public class Piece {
 		System.out.println("finished init");
 
 }
+	
+	
 }

@@ -51,6 +51,7 @@ public class robotHelper {
 			r.mousePress(InputEvent.BUTTON1_MASK);
 			r.delay(100);
 			r.mouseRelease(InputEvent.BUTTON1_MASK);
+			r.delay(300);
 		}
 		
 	}
@@ -232,6 +233,8 @@ public class robotHelper {
 		BufferedImage screen = new Robot().createScreenCapture(new Rectangle(0,0,dim.width,dim.height));
 		Color vert = new Color(118,150,86); //Vert Chess
 		Color blanc = new Color(238,238,210); //Blanc Chess
+		Color blanc_select = new Color(247,247,130); 
+		Color vert_select = new Color(187,202,68); //Vert Chess
 		
 		int minxv = 6000;
 		int maxyv = 0;
@@ -243,7 +246,7 @@ public class robotHelper {
 			for(int j=0; j < screen.getHeight(); j++)
 			{
 				Color pixel = new Color(screen.getRGB(i,j));
-				if (pixel.equals(vert))
+				if (pixel.equals(vert) || pixel.equals(vert_select))
 				{
 					if (i < minxv || j > maxyv) 
 					{
@@ -251,7 +254,7 @@ public class robotHelper {
 						maxyv = j;
 					}
 				}
-				else if (pixel.equals(blanc))
+				else if (pixel.equals(blanc) || pixel.equals(blanc_select))
 				{
 					if (i < minxb || j < minyb) 
 					{
