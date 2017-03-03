@@ -154,7 +154,7 @@ public class Echiquier {
 		int pgn1_coli = ((int) pgn1_col) - 97;
 		int pgn2_coli = ((int) pgn2_col) - 97;
 		
-		Case[] ret = {area[8-pgn1_row][pgn1_coli],area[8-pgn2_row][pgn2_coli]};
+		Case[] ret = {area[8-pgn1_row][pgn1_coli], area[8-pgn2_row][pgn2_coli]};
 		
 		return ret;
 	}
