@@ -14,7 +14,7 @@ import chessBot.robotHelper;
 public class Main {
 
 	static final playColor.color couleurDeJeu = playColor.color.WHITE;
-	static final boolean capture = true; //si le bot doit capturer les screen des pieces 
+	static final boolean capture = false; //si le bot doit capturer les screen des pieces 
 	
 	//static final String path = "./data/";
 	static final String path = "C:\\Users\\Seven\\Documents\\git\\chessBot\\data\\";
@@ -51,10 +51,13 @@ public class Main {
 				boolean b = !Echiquier.equalSimpleArea(old,e.simpleArea());
 								
 				if(b){
-					r.delay(300);
+					r.delay(100);
 					e.readPieces();
 					System.out.println("Changement joueur");
 					e.inverseTurn();
+				}
+				else{
+					System.out.println("oklm");
 				}
 			}
 		}
@@ -96,8 +99,19 @@ public class Main {
 		
 		StockfishInterface s = new StockfishInterface();
 		
-		while(true)
+		while(true) {
 			jeu(e, s, r);
+			for(int j=0; j < 8 ; j++)
+			{
+				for(int i=0;  i< 8; i++)
+				{
+					Case c = echiquier[j][i];
+					System.out.print(c.getPiece().toChar());
+				
+				}
+				System.out.print("\n");
+			}
+		}
 		
 		//echiquier[0][0].findPiece();
 		

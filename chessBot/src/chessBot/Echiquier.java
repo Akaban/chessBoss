@@ -116,6 +116,7 @@ public class Echiquier {
 	public void updateEchiquier(Case[] cases){
 		Case c1 = cases[0];
 		Case c2 = cases[1];
+
 		c2.setPiece(c1.getPiece());
 		c1.setEmpty();
 	}

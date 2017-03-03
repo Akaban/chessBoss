@@ -26,19 +26,22 @@ import chessBot.Piece.nomPiece;
 public class robotHelper {
 	
 	
-	static final int minusScreenZoneFactor = 7;
-	static final int translateScreenZoneFactor = 8;
+	static final int minusScreenZoneFactor = 8;
+	static final int translateScreenZoneFactor = 9;
 	static final int translateCorrection = 15;
 	static int countScreen =0;
 	static int doing=0;
 	
 	public static void adjustRectangle(Rectangle rec,int sizecase)
 	{
-		rec.grow(-(sizecase/minusScreenZoneFactor) -3,-sizecase/minusScreenZoneFactor );
+/*		rec.grow(-(sizecase/minusScreenZoneFactor) -3,-sizecase/minusScreenZoneFactor );
 		rec.translate(sizecase/translateScreenZoneFactor, sizecase/translateScreenZoneFactor);
 		rec.translate(-sizecase/translateCorrection, -sizecase/translateCorrection);
 		rec.translate(-Math.round(translateCorrection/2.5f),0);
+		rec.translate(sizecase/3, sizecase/3);*/
 		//rec.translate(0, -Math.round(translateCorrection/4f));
+		
+		
 	}
 	
 	public static void jouerCoup(Case[] cases, Robot r){

@@ -64,9 +64,10 @@ public class StockfishInterface {
 	{
 		envoyerCommande("position fen " + fenstring);
 		envoyerCommande("go movetime " + wait);
-		String s = recevoirSortie(20+wait);
-		System.out.println(s);
 		System.out.println(fenstring);
+		String s = recevoirSortie(20+wait);
+		//System.out.println(s);
+
 		return s.split("bestmove ")[1].split(" ")[0];
 
 	}

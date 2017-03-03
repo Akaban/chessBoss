@@ -102,6 +102,11 @@ public class Piece {
 		return this.type;
 	}
 	
+	public playColor.color getColor()
+	{
+		return this.couleur;
+	}
+	
 	public char toChar()
 	{
 		char ret;

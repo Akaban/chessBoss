@@ -72,7 +72,7 @@ public class Case {
 	}
 	
 	public void setPiece(Piece piece){
-		this.piece = piece;
+		this.piece = new Piece(piece.getType(),piece.getColor());
 	}
 	
 	public char PieceToChar()
