@@ -15,7 +15,7 @@ public class Case {
 	
 	static final Color vert = new Color(118,150,86);
 	static final Color blanc = new Color(238,238,210); 
-	static final Color blanc_select = new Color(247,247,130); 
+	static final Color blanc_select = new Color(246,246,129); 
 	static final Color vert_select = new Color(187,202,68); //Vert Chess
 
 	
@@ -55,10 +55,13 @@ public class Case {
 	{
 		Rectangle rec = adjustedRectangle;
 		BufferedImage img = new Robot().createScreenCapture(rec);
-		BufferedImage img2 = robotHelper.traitementContour(img, this.detectColor());
+		Color c = this.detectColor(img);
+		System.out.println(colorToString(c));
+		BufferedImage img2 = robotHelper.traitementContour(img, c);
+		System.out.println("doing x: " + ye + " y:" + xe);
 		Piece.nomPiece piece = robotHelper.classification(img2);
 		this.piece = new Piece(piece, this.detectColorPiece(img));
-		ImageIO.write(img, "png", new File(Main.path + "looking"+xe+"-"+ye+".png"));
+		ImageIO.write(img, "png", new File(Main.path + "looking"+ye+"-"+xe+".png"));
 	}
 	
 	public boolean isEmpty()
@@ -146,12 +149,11 @@ public class Case {
 		}
 	}
 	
-	public Color detectColor() throws IOException
+	public Color detectColor(BufferedImage img) throws IOException
 	{
 		Point loc = adjustedRectangle.getLocation();
 		int size = (int)adjustedRectangle.getWidth();
 		Rectangle r = new Rectangle(loc.x, loc.y,size/4,size/4);
-		BufferedImage img = robotHelper.simpleScreen(r);
 		int countBs=0;
 		int countVs=0;
 		
@@ -163,15 +165,17 @@ public class Case {
 				Color c = new Color(img.getRGB(i, j));
 				if (c.equals(vert_select))
 				{
-					countVs++;
+					countVs+=1;
+					System.out.println("v");
 				}
 				else if (c.equals(blanc_select))
 				{
-					countBs++;
+					countBs+=1;
+					System.out.println("b");
 				}
 			}
 		
-		//System.out.println("I see bs = " + countBs +" and countVs = " + countVs);
+		System.out.println("I see bs = " + countBs +" and countVs = " + countVs);
 		
 		if (countVs < 20 && countBs < 20)
 			return defaultColor();

@@ -26,20 +26,18 @@ import chessBot.Piece.nomPiece;
 public class robotHelper {
 	
 	
-	static final int minusScreenZoneFactor = 8;
-	static final int translateScreenZoneFactor = 9;
+	static final int minusScreenZoneFactor = 7;
+	static final int translateScreenZoneFactor = 8;
 	static final int translateCorrection = 15;
 	static int countScreen =0;
 	static int doing=0;
 	
 	public static void adjustRectangle(Rectangle rec,int sizecase)
 	{
-/*		rec.grow(-(sizecase/minusScreenZoneFactor) -3,-sizecase/minusScreenZoneFactor );
+		rec.grow(-(sizecase/minusScreenZoneFactor) -3,-sizecase/minusScreenZoneFactor );
 		rec.translate(sizecase/translateScreenZoneFactor, sizecase/translateScreenZoneFactor);
 		rec.translate(-sizecase/translateCorrection, -sizecase/translateCorrection);
 		rec.translate(-Math.round(translateCorrection/2.5f),0);
-		rec.translate(sizecase/3, sizecase/3);*/
-		//rec.translate(0, -Math.round(translateCorrection/4f));
 		
 		
 	}
@@ -99,8 +97,8 @@ public class robotHelper {
 				i_min = i;
 			}
 		}
-	//	System.out.println(min);
-	//	System.out.println(Piece.mapPiece[i_min].toString());
+		System.out.println(min);
+		System.out.println(Piece.mapPiece[i_min].toString());
 		return Piece.mapPiece[i_min];
 		
 
@@ -141,7 +139,7 @@ public class robotHelper {
 	
 	public static BufferedImage traitementContour(BufferedImage img,Color couleurFond)
 	{
-		//TODO Besoin de détection de la couleur de case
+		//TODO Besoin de dï¿½tection de la couleur de case
 		BufferedImage ret = deepCopy(img);
 		double fuzziness = 0.05;
 		double maxDistance = 441 * fuzziness;
@@ -222,7 +220,8 @@ public class robotHelper {
 			Case c = data[j][i];
 			Rectangle r = c.getRectangle();
 			adjustRectangle(r,decay);
-			BufferedImage lookingAt = traitementContour(new Robot().createScreenCapture(r),c.detectColor());
+			BufferedImage img = new Robot().createScreenCapture(r);
+			BufferedImage lookingAt = traitementContour(img,c.detectColor(img));
 			String casename = (j+1) + "-" + (i+1);
 			ImageIO.write(lookingAt, "png", new File(Main.path + "looking"+casename+".png"));
 		}

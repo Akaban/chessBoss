@@ -14,10 +14,10 @@ import chessBot.robotHelper;
 public class Main {
 
 	static final playColor.color couleurDeJeu = playColor.color.WHITE;
-	static final boolean capture = false; //si le bot doit capturer les screen des pieces 
+	static final boolean capture = true; //si le bot doit capturer les screen des pieces 
 	
-	//static final String path = "./data/";
-	static final String path = "C:\\Users\\Seven\\Documents\\git\\chessBot\\data\\";
+	static final String path = "./data/";
+	//static final String path = "C:\\Users\\Seven\\Documents\\git\\chessBot\\data\\";
 	static int x;
 	static int y;
 
@@ -51,7 +51,7 @@ public class Main {
 				boolean b = !Echiquier.equalSimpleArea(old,e.simpleArea());
 								
 				if(b){
-					r.delay(100);
+					r.delay(200);
 					e.readPieces();
 					System.out.println("Changement joueur");
 					e.inverseTurn();
