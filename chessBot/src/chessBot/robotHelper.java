@@ -119,13 +119,9 @@ public class robotHelper {
 		 return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
 		}
 	
-	public static BufferedImage traitementContour(BufferedImage img,boolean color)
+	public static BufferedImage traitementContour(BufferedImage img,Color couleurFond)
 	{
 		//TODO Besoin de détection de la couleur de case
-		Color couleurFond;
-		if (color)
-			couleurFond = new Color(118,150,86); //Vert Chess
-		else couleurFond = new Color(238,238,210); //Blanc Chess
 		BufferedImage ret = deepCopy(img);
 		double fuzziness = 0.05;
 		double maxDistance = 441 * fuzziness;
@@ -166,7 +162,7 @@ public class robotHelper {
 		return ret;
 	}
 	
-	public static Piece.nomPiece findPiece(Rectangle rectangle,boolean couleurCase,int decay) throws AWTException, IOException
+	/*public static Piece.nomPiece findPiece(Rectangle rectangle,boolean couleurCase,int decay) throws AWTException, IOException
 	{
 		BufferedImage lookingAt = traitementContour(new Robot().createScreenCapture(rectangle),couleurCase);
 		ImageIO.write(lookingAt, "png", new File(Main.path + "looking"+".png"));
@@ -194,7 +190,7 @@ public class robotHelper {
 		
 		
 		return Piece.mapPiece[minp];
-	}
+	}*/
 	
 	public static void whatDoISee(Echiquier echiquier) throws AWTException, IOException
 	{
@@ -206,7 +202,7 @@ public class robotHelper {
 			Case c = data[j][i];
 			Rectangle r = c.getRectangle();
 			adjustRectangle(r,decay);
-			BufferedImage lookingAt = traitementContour(new Robot().createScreenCapture(r),c.getColor());
+			BufferedImage lookingAt = traitementContour(new Robot().createScreenCapture(r),c.detectColor());
 			String casename = (j+1) + "-" + (i+1);
 			ImageIO.write(lookingAt, "png", new File(Main.path + "looking"+casename+".png"));
 		}

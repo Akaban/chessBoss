@@ -13,6 +13,12 @@ import javax.imageio.ImageIO;
 
 public class Case {
 	
+	static final Color vert = new Color(118,150,86);
+	static final Color blanc = new Color(238,238,210); 
+	static final Color blanc_select = new Color(247,247,130); 
+	static final Color vert_select = new Color(187,202,68); //Vert Chess
+
+	
 	private Piece piece;
 	private int x; //Coordonnees dans le repere de l'echiquier.
 	private int y;
@@ -49,7 +55,7 @@ public class Case {
 	{
 		Rectangle rec = adjustedRectangle;
 		BufferedImage img = new Robot().createScreenCapture(rec);
-		img = robotHelper.traitementContour(img, this.color);
+		img = robotHelper.traitementContour(img, this.detectColor());
 		Piece.nomPiece piece = robotHelper.classification(img);
 		this.piece = new Piece(piece,playColor.color.WHITE); // pas de distinction blanc noir encore
 		ImageIO.write(img, "png", new File(Main.path + "looking"+xe+"-"+ye+".png"));
@@ -93,32 +99,81 @@ public class Case {
 	{
 		return this.color;
 	}
-	public Color detectColor()
+	
+	public static String colorToString(Color c)
 	{
-		int sizecase = (int)rectangle.getWidth();
-		Point p = rectangle.getLocation();
-		p.translate(sizecase/10, sizecase/10);
+		if(c == null)
+			return "default";
 		
-		Rectangle r = new Rectangle(p.x,p.y,sizecase/10,sizecase/3);
+		if (c.equals(vert))
+		{
+			return "vert";
+		}
+		else if (c.equals(blanc))
+		{
+			return "blanc";
+		}
+		else if (c.equals(vert_select))
+		{
+			return "vert fluo";
+		}
+		else if (c.equals(blanc_select))
+		{
+			return "jaune";
+		}
 		
+		return "default";
+	}
+	
+	public Color defaultColor()
+	{
+		if (this.color)
+		{
+			return vert;
+		}
+		else
+		{
+			return blanc;
+		}
+	}
+	
+	public Color detectColor() throws IOException
+	{
+		Point loc = adjustedRectangle.getLocation();
+		int size = (int)adjustedRectangle.getWidth();
+		Rectangle r = new Rectangle(loc.x, loc.y,size/4,size/4);
 		BufferedImage img = robotHelper.simpleScreen(r);
+		int countBs=0;
+		int countVs=0;
 		
-		int red=0;
-		int green=0;
-		int blue=0;
-		
-		int taille = img.getHeight() * img.getWidth();
+		//ImageIO.write(img, "png", new File (Main.path + "detection-" + k + "-" + x +".png"));
 		
 		for(int i=0; i < img.getWidth(); i++)
-			for(int j=0;j < img.getHeight();j++)
+			for(int j=0; j< img.getHeight();j++)
 			{
 				Color c = new Color(img.getRGB(i, j));
-				red += c.getRed();
-				green += c.getGreen();
-				blue += c.getBlue();
+				if (c.equals(vert_select))
+				{
+					countVs++;
+				}
+				else if (c.equals(blanc_select))
+				{
+					countBs++;
+				}
 			}
 		
-		return new Color(red/taille,green/taille,blue/taille);
+		//System.out.println("I see bs = " + countBs +" and countVs = " + countVs);
+		
+		if (countVs < 20 && countBs < 20)
+			return defaultColor();
+		if (countVs > countBs)
+			return vert_select;
+		else
+			return blanc_select;
+		
+		
 	}
+	
+
 
 }

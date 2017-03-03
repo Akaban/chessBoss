@@ -120,7 +120,7 @@ public class Piece {
 			
 			c = e.getEchiquier()[coord[0]][coord[1]];
 			
-			BufferedImage lookingAt = robotHelper.traitementContour(new Robot().createScreenCapture(c.getRectangle()),c.getColor());
+			BufferedImage lookingAt = robotHelper.traitementContour(new Robot().createScreenCapture(c.getRectangle()),c.defaultColor());
 			
 			String casename = toStringEnum(mapPiece[countPiece]);
 			ImageIO.write(lookingAt, "png", new File(Main.path + casename+".png"));
