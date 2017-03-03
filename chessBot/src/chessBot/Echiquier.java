@@ -9,6 +9,13 @@ import java.io.IOException;
 public class Echiquier {
 
 	private Case[][] area;
+	private boolean white_kingside;
+	private boolean white_queenside;
+	private boolean black_kingside;
+	private boolean black_queenside;
+	private int nbCoups;
+	
+	private boolean turn; //0 blanc 1 noir
 
 	public Echiquier(int startx,int starty,int size) {
 
