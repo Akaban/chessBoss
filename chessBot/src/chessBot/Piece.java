@@ -59,6 +59,11 @@ public class Piece {
 		return ret;
 		}
 	
+	public boolean isKing()
+	{
+		return type == nomPiece.King;
+	}
+	
 	public static String toStringEnum(nomPiece type)
 	{
 		String ret;

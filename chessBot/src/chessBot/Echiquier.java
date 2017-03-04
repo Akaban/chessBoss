@@ -14,6 +14,7 @@ public class Echiquier {
 	private boolean white_queenside;
 	private boolean black_kingside;
 	private boolean black_queenside;
+	private boolean canCastle;
 	private int nbCoups;
 	
 	private playColor.color turn;
@@ -25,11 +26,12 @@ public class Echiquier {
 
 	public Echiquier(int startx,int starty,int size,playColor.color botColor) {
 
-	this.turn = playColor.color.BLACK;
+	this.turn = Main.couleurDeJeu;
 	this.white_kingside = true;
 	this.white_queenside = true;
 	this.black_kingside = true;
 	this.black_queenside = true;
+	this.canCastle = true;
 	this.nbCoups = 1;
 	this.botColor = botColor;
 	int sizecase = Math.round(size/8f);
@@ -76,7 +78,8 @@ public class Echiquier {
 		{
 			for(int i=0 ; i < 8; i++)
 			{
-				ret[j][i] = Piece.toIntEnum(getCase(i,j).getPiece().getType());
+				Piece p = getCase(i,j).getPiece();
+				ret[j][i] = Piece.toIntEnum(p.getType()) + 10 * playColor.toIntColor(p.getColor());
 				
 			}
 		}
@@ -140,10 +143,37 @@ public class Echiquier {
 			ret+=" w ";
 		else
 			ret+=" b ";
-		ret+= "KQkq - 0 1";
+		if(white_kingside || white_queenside || black_kingside || black_queenside)
+		{
+			if(white_kingside)
+				ret+="K";
+			if(white_queenside)
+				ret+="Q";
+			if(black_kingside)
+				ret+="k";
+			if(black_queenside)
+				ret+="q";
+		}
+		else
+			ret+="-";
+		ret+= " - 0 1";
 		
 		return ret;
 		
+	}
+	
+	public void disableCastle(playColor.color player)
+	{
+		if(player == playColor.color.WHITE)
+		{
+			white_kingside = false;
+			white_queenside = false;
+		}
+		else
+		{
+			black_kingside = false;
+			white_queenside = false;
+		}
 	}
 	
 	public void updateEchiquier(Case[] cases){
@@ -152,6 +182,13 @@ public class Echiquier {
 
 		c2.setPiece(c1.getPiece());
 		c1.setEmpty();
+		
+		if(c1.hasKing() && this.canCastle )
+		{
+			System.out.println("disabling castle");
+			disableCastle(this.botColor);
+			this.canCastle = false;
+		}
 	}
 	
 	public void inverseTurn(){

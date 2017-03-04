@@ -278,6 +278,11 @@ public class Case {
 			return defaultColor();
 		return closestColor(max_color);
 	}
+	
+	public boolean hasKing()
+	{
+		return this.piece.isKing();
+	}
 
 	public playColor.color detectColorPiece(BufferedImage img) throws AWTException{
 		
