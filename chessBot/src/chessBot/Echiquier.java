@@ -162,6 +162,14 @@ public class Echiquier {
 		
 	}
 	
+	public void zeroCastle()
+	{
+		white_kingside = false;
+		white_queenside = false;
+		black_kingside = false;
+		black_queenside = false;
+	}
+	
 	public void disableCastle(playColor.color player)
 	{
 		if(player == playColor.color.WHITE)

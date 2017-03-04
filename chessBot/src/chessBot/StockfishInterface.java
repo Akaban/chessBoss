@@ -21,6 +21,13 @@ public class StockfishInterface {
 		stockfishWriter = new OutputStreamWriter(stockfishProcess.getOutputStream());
 	}
 	
+	public void startOver() throws IOException
+	{
+		stockfishProcess = Runtime.getRuntime().exec(STOCKFISH);
+		stockfishReader = new BufferedReader(new InputStreamReader(stockfishProcess.getInputStream()));
+		stockfishWriter = new OutputStreamWriter(stockfishProcess.getOutputStream());
+	}
+	
 	public void envoyerCommande(String commande) throws IOException
 	{
 		try{

@@ -14,8 +14,11 @@ import chessBot.robotHelper;
 
 public class Main {
 
-	static playColor.color couleurDeJeu = null;
-	static final boolean capture = false; //si le bot doit capturer les screen des pieces 
+	static playColor.color white = playColor.color.WHITE;
+	static playColor.color black = playColor.color.BLACK;
+	static playColor.color couleurDeJeu = white; //null = autodetect
+	static final boolean capture = false; //si le bot doit capturer les screen des pieces
+	static boolean relance = false;
 	
 	//static final String path = "./data/";
 	//static final String path = "C:\\Users\\Seven\\Documents\\git\\chessBot\\data\\";
@@ -39,7 +42,27 @@ public class Main {
 		if(couleurDeJeu == e.getTurn()){ // a lui de jouer
 			
 			System.out.println("a moi de jouer");
-			String coup = s.nextMove(e.getFen(), 1000);
+			String coup = null;
+			try {
+			coup = s.nextMove(e.getFen(), 1000);
+			}
+			catch(ArrayIndexOutOfBoundsException exception) //stockfish a planté
+			{
+				//on le relance sans les roque
+				if(!relance)
+				{
+				System.out.println("Stockish a planté. On le relance sans roque");
+				e.zeroCastle();
+				s.startOver();
+				relance=true;
+				return;
+				}
+				else
+				{
+					exception.printStackTrace();
+					System.exit(1);
+				}
+			}
 			System.out.println("Je Joue: " + coup);
 			Case[] cases = e.PGNtoPtr(coup);
 			robotHelper.jouerCoup(cases, r);
