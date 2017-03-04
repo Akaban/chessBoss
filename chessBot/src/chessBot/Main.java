@@ -14,21 +14,24 @@ import chessBot.robotHelper;
 public class Main {
 
 	static final playColor.color couleurDeJeu = playColor.color.BLACK;
-	static final boolean capture = true; //si le bot doit capturer les screen des pieces 
+	static final boolean capture = false; //si le bot doit capturer les screen des pieces 
 	
-	static final String path = "./data/";
+	//static final String path = "./data/";
 	//static final String path = "C:\\Users\\Seven\\Documents\\git\\chessBot\\data\\";
+	static final String path = "C:\\Users\\Seven\\git\\botance\\chessBot\\data\\";
 	static int x;
 	static int y;
 
 	static Point mouseLoc1;
 	static Point mouseLoc2;
 	static int size;
+		
+	static Case caseptr;
 	
 	static double distance (Point p) {
 	    return (Math.sqrt(p.x * p.x + p.y * p.y));
 	    }
-
+	
 	
 	public static void jeu(Echiquier e, StockfishInterface s, Robot r) throws IOException, InterruptedException, AWTException{
 		
@@ -42,6 +45,7 @@ public class Main {
 			System.out.println("Je Joue: " + coup);
 			Case[] cases = e.PGNtoPtr(coup);
 			robotHelper.jouerCoup(cases, r);
+			r.delay(1000);
 			System.out.println("ok");
 			e.inverseTurn();
 			//mise a jour echiquier
@@ -54,16 +58,30 @@ public class Main {
 				
 				e.readPieces();
 				int[][] sa1 = e.simpleArea();
-				boolean b = !Echiquier.equalSimpleArea(old,e.simpleArea());
+				boolean b = !Echiquier.equalSimpleArea(old,e.simpleArea(),e);
+				int bint = Echiquier.equalSimpleAreaInt(old,e.simpleArea(),e);
 								
-				if(b){
+				if(bint > 1){ //un mouvement = 2 différences
+					System.out.println("Changement joueur");
+			//		System.out.println("Il semblerait que la case ("+caseptr.getCoordString()+" aie changé");
+			//		System.out.println("Il y avait auparavant un " + Piece.mapPiece[old[caseptr.getXe()][caseptr.getYe()]].toString());
+			//		System.out.println("Et maintenant un: " + caseptr.getPiece().toChar());
 					r.delay(100);
 					e.readPieces();
+					e.printEchiquier();
 					System.out.println("Changement joueur");
 					e.inverseTurn();
 				}
 				else{
-					System.out.println("oklm");
+					if (bint ==1)
+					{
+						while(true){ //on stoppe le bot et on affiche le message d'erreur en boucle
+							//fen bug 1r1q2k1/2R5/1p1p2pQ/1N2n3/2P5/2Nb2P1/7P/4K3 b - - 0 34
+							// le bot confonds la dame en d8 avec un pion
+						System.out.println("Il n'y a qu'une différence = impossible\n la classification a confondu des pieces.");
+						r.delay(2000);
+						}
+					}
 				}
 			}
 		}
@@ -97,35 +115,20 @@ public class Main {
 		
 		Piece.initImageData(e,capture);
 		
-		e.readPieces();
-		
-		for(int j=0; j < 8 ; j++)
-		{
-			for(int i=0;  i< 8; i++)
-			{
-				Case c = e.getCase(i, j);
-				System.out.print(c.getPiece().toChar());
-			
-			}
-			System.out.print("\n");
-		}
+		//e.readPieces();
 		
 		System.out.println(e.getFen());
 		
 		StockfishInterface s = new StockfishInterface();
 		
+		Case c = e.getCase(3, 0);
+		
+		c.findPiece();
+		
+		r.mouseMove((int)c.getRectangle().getCenterX(),(int) c.getRectangle().getCenterY());
+		
 		while(true) {
-			jeu(e, s, r);
-			for(int j=0; j < 8 ; j++)
-			{
-				for(int i=0;  i< 8; i++)
-				{
-					Case c = e.getCase(i, j);
-					System.out.print(c.getPiece().toChar());
-				
-				}
-				System.out.print("\n");
-			}
+		//	jeu(e, s, r);
 		}
 		
 		//echiquier[0][0].findPiece();

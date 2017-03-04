@@ -8,6 +8,8 @@ import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -51,17 +53,32 @@ public class Case {
 		this.adjustedRectangle = r;
 	}
 	
+	public int getXe()
+	{
+		return xe;
+	}
+	
+	public int getYe()
+	{
+		return ye;
+	}
+	
+	public String getCoordString()
+	{
+		return xe+"-"+ye;
+	}
+	
 	public void findPiece() throws AWTException, IOException
 	{
 		Rectangle rec = adjustedRectangle;
 		BufferedImage img = new Robot().createScreenCapture(rec);
 		Color c = this.detectColor(img);
-		//System.out.println(colorToString(c));
+		System.out.println(colorToString(c));
 		BufferedImage img2 = robotHelper.traitementContour(img, c);
 		//System.out.println("doing x: " + ye + " y:" + xe);
 		Piece.nomPiece piece = robotHelper.classification(img2);
 		this.piece = new Piece(piece, this.detectColorPiece(img));
-		//ImageIO.write(img, "png", new File(Main.path + "looking"+ye+"-"+xe+".png"));
+		ImageIO.write(img, "png", new File(Main.path + "looking"+ye+"-"+xe+".png"));
 	}
 	
 	public boolean isEmpty()
@@ -149,7 +166,7 @@ public class Case {
 		}
 	}
 	
-	public Color detectColor(BufferedImage img) throws IOException
+	/*public Color detectColor(BufferedImage img) throws IOException
 	{
 		Point loc = adjustedRectangle.getLocation();
 		int size = (int)adjustedRectangle.getWidth();
@@ -186,7 +203,82 @@ public class Case {
 		
 		
 	}
+*/	
 	
+	public static int distanceColor(Color c1,Color c2)
+	{
+		int rDelta = c1.getRed() - c2.getRed();
+		int gDelta = c1.getGreen() - c2.getGreen();
+		int bDelta = c1.getBlue() - c2.getBlue();
+		
+		double distance = Math.sqrt((double)(rDelta*rDelta+gDelta*gDelta+bDelta*bDelta));
+		
+		return (int) distance;
+	}
+	
+	public static Color closestColor(Color c)
+	{
+		Color[] colors = {blanc,vert,blanc_select,vert_select};
+		int dist=1000;
+		Color retColor = null;
+		
+		for(Color color : colors)
+		{
+			int distance = distanceColor(color,c);
+			
+			if(distance < dist)
+			{
+				dist=distance;
+				retColor = color;
+			}
+		}
+		
+		return retColor;
+	}
+	
+	public Color detectColor(BufferedImage img) throws IOException
+	{
+		Point loc = adjustedRectangle.getLocation();
+		int size = (int)adjustedRectangle.getWidth();
+		Rectangle r = new Rectangle(loc.x, loc.y,size/4,size/4);
+		int countBs=0;
+		int countVs=0;
+		
+		Map<Color,Integer> colorCounter=new HashMap<Color,Integer>();
+		
+		//ImageIO.write(img, "png", new File (Main.path + "detection-" + k + "-" + x +".png"));
+		
+		for(int i=0; i < img.getWidth(); i++)
+			for(int j=0; j< img.getHeight();j++)
+			{
+				Color c = new Color(img.getRGB(i, j));
+				 if(colorCounter.containsKey(c))
+				 {
+					 colorCounter.put(c, colorCounter.get(c) + 1);
+				 }
+				 else
+				 {
+					 colorCounter.put(c, 0);
+				 }
+			}
+		
+		int max=0;
+		Color max_color=null;
+		
+		for(Map.Entry<Color, Integer> entry : colorCounter.entrySet())
+		{
+			if(entry.getValue() > max)
+			{
+				max = entry.getValue();
+				max_color = entry.getKey();
+			}
+		}
+		
+		if (max_color == null)
+			return defaultColor();
+		return closestColor(max_color);
+	}
+
 	public playColor.color detectColorPiece(BufferedImage img) throws AWTException{
 		
 		int size = (int)adjustedRectangle.getWidth();

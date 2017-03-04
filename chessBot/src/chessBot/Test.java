@@ -21,13 +21,11 @@ public class Test {
 	static final Color blanc_select = new Color(247,247,130); 
 	static final Color vert_select = new Color(187,202,68); //Vert Ches
 	
-	public static Color detectColor(BufferedImage img,ArrayList<Color> colorlist) throws IOException
+
+	public static Color detectColor(BufferedImage img) throws IOException
 	{
 
-		int countBs=0;
-		int countVs=0;
-		
-
+		Map<Color,Integer> colorCounter=new HashMap<Color,Integer>();
 		
 		//ImageIO.write(img, "png", new File (Main.path + "detection-" + k + "-" + x +".png"));
 		
@@ -35,63 +33,40 @@ public class Test {
 			for(int j=0; j< img.getHeight();j++)
 			{
 				Color c = new Color(img.getRGB(i, j));
-				if (c.equals(vert_select))
-				{
-					countVs+=1;
-					System.out.println("v");
-				}
-				else if (c.equals(blanc_select))
-				{
-					countBs+=1;
-					System.out.println("b");
-				}
-				else
-					colorlist.add(c);
+				 if(colorCounter.containsKey(c))
+				 {
+					 colorCounter.put(c, colorCounter.get(c) + 1);
+				 }
+				 else
+				 {
+					 colorCounter.put(c, 0);
+				 }
 			}
 		
-		System.out.println("I see bs = " + countBs +" and countVs = " + countVs);
+		int max=0;
+		Color max_color=null;
 		
-		if (countVs < 20 && countBs < 20)
+		for(Map.Entry<Color, Integer> entry : colorCounter.entrySet())
+		{
+			if(entry.getValue() > max)
+			{
+				max = entry.getValue();
+				max_color = entry.getKey();
+			}
+		}
+		
+		if (max_color == null)
 			return vert;
-		if (countVs > countBs)
-			return vert_select;
-		else
-			return blanc_select;
-		
-		
-	}
-	
+		return Case.closestColor(max_color);
+	}	
 	public static void main(String[] args) throws IOException, AWTException
 	{
 		
 		Piece.initImageData(null,false);
 		
-		BufferedImage img = ImageIO.read(new File(Main.path + "looking3-1" + ".png"));
-		BufferedImage img2 = robotHelper.traitementContour(img,blanc_select);
+		BufferedImage img = ImageIO.read(new File(Main.path + "looking4-7" + ".png"));
+		BufferedImage img2 = robotHelper.traitementContour(img,vert);
 		Piece.nomPiece piece = robotHelper.classification(img2);
-		
-		System.out.println(vert.equals(blanc));
-		
-		ArrayList<Color> cl = new ArrayList<Color>();
-		
-		detectColor(img,cl);
-		
-		 Map<Color,Integer> charCounter=new HashMap<Color,Integer>();
-		 
-		 for(Color c : cl)
-		 {
-			 if(charCounter.containsKey(c))
-			 {
-				 charCounter.put(c, charCounter.get(c) + 1);
-			 }
-			 else
-			 {
-				 charCounter.put(c, 0);
-			 }
-		 }
-		 
-		 System.out.println(charCounter);
-		
 		
 		
 	}

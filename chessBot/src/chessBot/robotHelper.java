@@ -97,8 +97,8 @@ public class robotHelper {
 				i_min = i;
 			}
 		}
-		//System.out.println(min);
-		//System.out.println(Piece.mapPiece[i_min].toString());
+		System.out.println(min);
+		System.out.println(Piece.mapPiece[i_min].toString());
 		return Piece.mapPiece[i_min];
 		
 

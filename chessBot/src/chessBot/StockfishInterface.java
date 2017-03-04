@@ -11,8 +11,8 @@ public class StockfishInterface {
 	private BufferedReader stockfishReader;
 	private OutputStreamWriter stockfishWriter;
 	
-	//private static final String STOCKFISH = "C:\\Users\\Seven\\Documents\\stockfish-8-win\\Windows\\stockfish_8_x64.exe";
-	private static final String STOCKFISH = "stockfish";
+	private static final String STOCKFISH = "C:\\Users\\Seven\\Documents\\stockfish-8-win\\Windows\\stockfish_8_x64.exe";
+	//private static final String STOCKFISH = "stockfish";
 	
 	public StockfishInterface() throws IOException
 	{

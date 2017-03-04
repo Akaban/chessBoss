@@ -72,11 +72,11 @@ public class Echiquier {
 	{
 		int[][] ret = new int[8][8];
 		
-		for(int i=0; i < 8; i++)
+		for(int j=0; j < 8; j++)
 		{
-			for(int j=0 ; j < 8; j++)
+			for(int i=0 ; i < 8; i++)
 			{
-				ret[i][j] = Piece.toIntEnum(getCase(i,j).getPiece().getType());
+				ret[j][i] = Piece.toIntEnum(getCase(i,j).getPiece().getType());
 				
 			}
 		}
@@ -86,6 +86,20 @@ public class Echiquier {
 	
 	public playColor.color getTurn(){
 		return this.turn;
+	}
+	
+	public void printEchiquier()
+	{
+		for(int j=0; j < 8 ; j++)
+		{
+			for(int i=0;  i< 8; i++)
+			{
+				Case c = getCase(i, j);
+				System.out.print(c.getPiece().toChar());
+			
+			}
+			System.out.print("\n");
+		}
 	}
 	
 	public String getFen()
@@ -223,16 +237,34 @@ public class Echiquier {
 	    
 	}
 	
-	public static boolean equalSimpleArea(int[][] a1,int[][] a2)
+	public static boolean equalSimpleArea(int[][] a1,int[][] a2,Echiquier e)
 	{
 		for (int i=0; i < 8; i++)
 			for(int j=0; j < 8; j++)
 			{
 				if(a1[i][j] != a2[i][j])
+				{
+					Main.caseptr = e.getCase(i,j);
 					return false;
+				}
+					
 			}
 		
 		return true;
+	}
+	
+	public static int equalSimpleAreaInt(int[][] a1,int[][] a2,Echiquier e)
+	{
+		int cpt=0;
+		for (int i=0; i < 8; i++)
+			for(int j=0; j < 8; j++)
+			{
+				if(a1[i][j] != a2[i][j])
+					cpt++;
+					
+			}
+		
+		return cpt;
 	}
 	
 	//Faire des fonctions de d�tections de roque et savoir �galement d�tecter quand le mec a jou� (un changement).
