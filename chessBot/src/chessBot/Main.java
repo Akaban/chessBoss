@@ -38,10 +38,7 @@ public class Main {
 		if(couleurDeJeu == e.getTurn()){ // a lui de jouer
 			
 			System.out.println("a moi de jouer");
-			String[] nextMove = s.nextMove(e.getFen(), 1000);
-			String coup = nextMove[0];
-			int score = Integer.parseInt(nextMove[1]);
-			System.out.println("Score: " + score/100d);
+			String coup = s.nextMove(e.getFen(), 1000);
 			System.out.println("Je Joue: " + coup);
 			Case[] cases = e.PGNtoPtr(coup);
 			robotHelper.jouerCoup(cases, r);
@@ -115,20 +112,15 @@ public class Main {
 		
 		Piece.initImageData(e,capture);
 		
-		//e.readPieces();
+		e.readPieces();
 		
 		System.out.println(e.getFen());
 		
 		StockfishInterface s = new StockfishInterface();
 		
-		Case c = e.getCase(3, 0);
-		
-		c.findPiece();
-		
-		r.mouseMove((int)c.getRectangle().getCenterX(),(int) c.getRectangle().getCenterY());
 		
 		while(true) {
-		//	jeu(e, s, r);
+			jeu(e, s, r);
 		}
 		
 		//echiquier[0][0].findPiece();

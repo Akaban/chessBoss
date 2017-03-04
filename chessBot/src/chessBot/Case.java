@@ -73,12 +73,12 @@ public class Case {
 		Rectangle rec = adjustedRectangle;
 		BufferedImage img = new Robot().createScreenCapture(rec);
 		Color c = this.detectColor(img);
-		System.out.println(colorToString(c));
+		//System.out.println(colorToString(c));
 		BufferedImage img2 = robotHelper.traitementContour(img, c);
 		//System.out.println("doing x: " + ye + " y:" + xe);
 		Piece.nomPiece piece = robotHelper.classification(img2);
 		this.piece = new Piece(piece, this.detectColorPiece(img));
-		ImageIO.write(img, "png", new File(Main.path + "looking"+ye+"-"+xe+".png"));
+		//ImageIO.write(img, "png", new File(Main.path + "looking"+ye+"-"+xe+".png"));
 	}
 	
 	public boolean isEmpty()

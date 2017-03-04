@@ -85,20 +85,22 @@ public class robotHelper {
 	
 	public static nomPiece classification(BufferedImage img){
 		
-		int min = 1000;
+		int min = 3000;
 		int i_min = 0;
 		
 		for(int i =0; i < 7; i++)
 		{
 			int d = distance(img, Piece.dataPiece[i]);
 			
+			//System.out.println("Distance from "+Piece.mapPiece[i].toString()+" = " + d);
+			
 			if (d < min){
 				min = d;
 				i_min = i;
 			}
 		}
-		System.out.println(min);
-		System.out.println(Piece.mapPiece[i_min].toString());
+		//System.out.println(min);
+		//System.out.println(Piece.mapPiece[i_min].toString());
 		return Piece.mapPiece[i_min];
 		
 
