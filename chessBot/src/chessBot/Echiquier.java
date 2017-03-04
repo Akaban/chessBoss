@@ -16,20 +16,22 @@ public class Echiquier {
 	private boolean black_queenside;
 	private int nbCoups;
 	
-	private playColor.color turn; 
+	private playColor.color turn;
+	private playColor.color botColor;
 	
 	public Echiquier(Echiquier e){
 		this.area = deepCopy(this.area);
 	}
 
-	public Echiquier(int startx,int starty,int size) {
+	public Echiquier(int startx,int starty,int size,playColor.color botColor) {
 
-	this.turn = playColor.color.WHITE;
+	this.turn = playColor.color.BLACK;
 	this.white_kingside = true;
 	this.white_queenside = true;
 	this.black_kingside = true;
 	this.black_queenside = true;
 	this.nbCoups = 1;
+	this.botColor = botColor;
 	int sizecase = Math.round(size/8f);
 	this.area = new Case[8][8];
 	
@@ -53,6 +55,19 @@ public class Echiquier {
 
 	}
 	
+	public boolean botIsWhite()
+	{
+		return this.botColor == playColor.color.WHITE;
+	}
+	
+	public Case getCase(int i,int j)
+	{
+		if (botColor == playColor.color.WHITE)
+			return area[j][i];
+		else
+			return area[7-j][7-i];
+	}
+	
 	public int[][] simpleArea()
 	{
 		int[][] ret = new int[8][8];
@@ -61,7 +76,7 @@ public class Echiquier {
 		{
 			for(int j=0 ; j < 8; j++)
 			{
-				ret[i][j] = Piece.toIntEnum(area[i][j].getPiece().getType());
+				ret[i][j] = Piece.toIntEnum(getCase(i,j).getPiece().getType());
 				
 			}
 		}
@@ -82,7 +97,7 @@ public class Echiquier {
 		{
 			for(int j=0; j <8; j++)
 		{
-			Case c = area[i][j];
+			Case c = getCase(j,i);
 			
 			if (c.isEmpty())
 			{
@@ -107,7 +122,11 @@ public class Echiquier {
 			if (i < 7)ret += "/";
 		}
 		
-		ret+= " w KQkq - 0 1";
+		if (this.botIsWhite())
+			ret+=" w ";
+		else
+			ret+=" b ";
+		ret+= "KQkq - 0 1";
 		
 		return ret;
 		
@@ -137,7 +156,7 @@ public class Echiquier {
 	{
 		for(int i=0; i < 8 ; i++) for(int j=0; j <8; j++)
 			{
-			area[j][i].findPiece();
+			getCase(i,j).findPiece();
 				
 			}
 	}
@@ -155,7 +174,7 @@ public class Echiquier {
 		int pgn1_coli = ((int) pgn1_col) - 97;
 		int pgn2_coli = ((int) pgn2_col) - 97;
 		
-		Case[] ret = {area[8-pgn1_row][pgn1_coli], area[8-pgn2_row][pgn2_coli]};
+		Case[] ret = {getCase(pgn1_coli,8-pgn1_row), getCase(pgn2_coli,8-pgn2_row)};
 		
 		return ret;
 	}
@@ -166,7 +185,7 @@ public class Echiquier {
 			for(int j=0;j < 8;j++)
 			{
 				
-				if(this.area[i][j].getPiece().getType() != echiquier.area[i][j].getPiece().getType())
+				if(getCase(i,j).getPiece().getType() != echiquier.getCase(i,j).getPiece().getType())
 					return false;
 			}
 		
@@ -216,7 +235,7 @@ public class Echiquier {
 		return true;
 	}
 	
-	//Faire des fonctions de détections de roque et savoir également détecter quand le mec a joué (un changement).
+	//Faire des fonctions de dï¿½tections de roque et savoir ï¿½galement dï¿½tecter quand le mec a jouï¿½ (un changement).
 	
 
 

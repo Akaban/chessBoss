@@ -56,12 +56,12 @@ public class Case {
 		Rectangle rec = adjustedRectangle;
 		BufferedImage img = new Robot().createScreenCapture(rec);
 		Color c = this.detectColor(img);
-		System.out.println(colorToString(c));
+		//System.out.println(colorToString(c));
 		BufferedImage img2 = robotHelper.traitementContour(img, c);
-		System.out.println("doing x: " + ye + " y:" + xe);
+		//System.out.println("doing x: " + ye + " y:" + xe);
 		Piece.nomPiece piece = robotHelper.classification(img2);
 		this.piece = new Piece(piece, this.detectColorPiece(img));
-		ImageIO.write(img, "png", new File(Main.path + "looking"+ye+"-"+xe+".png"));
+		//ImageIO.write(img, "png", new File(Main.path + "looking"+ye+"-"+xe+".png"));
 	}
 	
 	public boolean isEmpty()
@@ -166,16 +166,16 @@ public class Case {
 				if (c.equals(vert_select))
 				{
 					countVs+=1;
-					System.out.println("v");
+					//System.out.println("v");
 				}
 				else if (c.equals(blanc_select))
 				{
 					countBs+=1;
-					System.out.println("b");
+					//System.out.println("b");
 				}
 			}
 		
-		System.out.println("I see bs = " + countBs +" and countVs = " + countVs);
+		//System.out.println("I see bs = " + countBs +" and countVs = " + countVs);
 		
 		if (countVs < 20 && countBs < 20)
 			return defaultColor();

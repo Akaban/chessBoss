@@ -48,11 +48,11 @@ public class robotHelper {
 		for(Case c : cases){
 			Point loc = c.localisationPoint();
 			r.mouseMove(loc.x, loc.y);
-			r.delay(100);
+			r.delay(20);
 			r.mousePress(InputEvent.BUTTON1_MASK);
-			r.delay(100);
+			r.delay(20);
 			r.mouseRelease(InputEvent.BUTTON1_MASK);
-			r.delay(300);
+			r.delay(20);
 		}
 		
 	}
@@ -97,8 +97,8 @@ public class robotHelper {
 				i_min = i;
 			}
 		}
-		System.out.println(min);
-		System.out.println(Piece.mapPiece[i_min].toString());
+		//System.out.println(min);
+		//System.out.println(Piece.mapPiece[i_min].toString());
 		return Piece.mapPiece[i_min];
 		
 
@@ -229,7 +229,7 @@ public class robotHelper {
 			
 	}
 	
-	public static int[] findEchiquierChess() throws AWTException
+	public static int[] findEchiquierChess() throws AWTException 
 	{
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		BufferedImage screen = new Robot().createScreenCapture(new Rectangle(0,0,dim.width,dim.height));

@@ -13,7 +13,7 @@ import chessBot.robotHelper;
 
 public class Main {
 
-	static final playColor.color couleurDeJeu = playColor.color.WHITE;
+	static final playColor.color couleurDeJeu = playColor.color.BLACK;
 	static final boolean capture = true; //si le bot doit capturer les screen des pieces 
 	
 	static final String path = "./data/";
@@ -34,9 +34,15 @@ public class Main {
 		
 		if(couleurDeJeu == e.getTurn()){ // a lui de jouer
 			
-			String coup = s.nextMove(e.getFen(), 1000);
+			System.out.println("a moi de jouer");
+			String[] nextMove = s.nextMove(e.getFen(), 1000);
+			String coup = nextMove[0];
+			int score = Integer.parseInt(nextMove[1]);
+			System.out.println("Score: " + score/100d);
+			System.out.println("Je Joue: " + coup);
 			Case[] cases = e.PGNtoPtr(coup);
 			robotHelper.jouerCoup(cases, r);
+			System.out.println("ok");
 			e.inverseTurn();
 			//mise a jour echiquier
 			e.updateEchiquier(cases);
@@ -51,7 +57,7 @@ public class Main {
 				boolean b = !Echiquier.equalSimpleArea(old,e.simpleArea());
 								
 				if(b){
-					r.delay(200);
+					r.delay(100);
 					e.readPieces();
 					System.out.println("Changement joueur");
 					e.inverseTurn();
@@ -68,19 +74,28 @@ public class Main {
 	{
 		Robot r = new Robot();
 		
+
 		int[] coord = robotHelper.findEchiquierChess();
+
 		mouseLoc1 = new Point(coord[2],coord[3]);
 		mouseLoc2 = new Point(coord[0],coord[1]);
 		mouseLoc2.translate(-mouseLoc1.x, -mouseLoc1.y);
 		size=(int)distance(mouseLoc2);
 		
+		if (size == 6000)
+			try {
+				throw new Exception("Echiquier non trouvé !");
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				System.exit(1);
+			}
+		
 		System.out.println(size);
 		
-		Echiquier e = new Echiquier(mouseLoc1.x,mouseLoc1.y,size);
+		Echiquier e = new Echiquier(mouseLoc1.x,mouseLoc1.y,size,couleurDeJeu);
 		
 		Piece.initImageData(e,capture);
-		
-		Case[][] echiquier = e.getEchiquier();
 		
 		e.readPieces();
 		
@@ -88,7 +103,7 @@ public class Main {
 		{
 			for(int i=0;  i< 8; i++)
 			{
-				Case c = echiquier[j][i];
+				Case c = e.getCase(i, j);
 				System.out.print(c.getPiece().toChar());
 			
 			}
@@ -105,7 +120,7 @@ public class Main {
 			{
 				for(int i=0;  i< 8; i++)
 				{
-					Case c = echiquier[j][i];
+					Case c = e.getCase(i, j);
 					System.out.print(c.getPiece().toChar());
 				
 				}

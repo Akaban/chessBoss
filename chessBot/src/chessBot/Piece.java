@@ -152,7 +152,7 @@ public class Piece {
 		
 		dataPiece = new BufferedImage[7];
 		
-		if (capture) //S'il faut récupérer les screen des pièces selon pieces_debut
+		if (capture) //S'il faut rï¿½cupï¿½rer les screen des piï¿½ces selon pieces_debut
 		{
 
 		for(int countPiece=0; countPiece < 7 ; countPiece++)
@@ -160,7 +160,10 @@ public class Piece {
 			int[] coord = pieces_debut[countPiece];
 			Case c;
 			
-			c = e.getEchiquier()[coord[0]][coord[1]];
+			if(e.botIsWhite())
+				c = e.getCase(coord[1],coord[0]);
+			else
+				c = e.getCase(coord[1], 7 - coord[0]);
 			
 			BufferedImage lookingAt = robotHelper.traitementContour(new Robot().createScreenCapture(c.getRectangle()),c.defaultColor());
 			

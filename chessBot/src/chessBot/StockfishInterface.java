@@ -61,15 +61,23 @@ public class StockfishInterface {
 		return buffer.toString();
 	}
 	
-	public String nextMove(String fenstring, int wait) throws IOException, InterruptedException
+	public String[] nextMove(String fenstring, int wait) throws IOException, InterruptedException
 	{
 		envoyerCommande("position fen " + fenstring);
 		envoyerCommande("go movetime " + wait);
 		System.out.println(fenstring);
 		String s = recevoirSortie(20+wait);
+		String[] lines = s.split("\n");
+		String last_analysis = lines[lines.length - 2];
+		String bestmove_line = lines[lines.length - 1];
+		String[] score_tmp = last_analysis.split("score")[1].split(" ");
+		String score = score_tmp[2];
+		String bestmove = bestmove_line.split(" ")[1];
 		//System.out.println(s);
 
-		return s.split("bestmove ")[1].split(" ")[0];
+		//return s.split("bestmove ")[1].split(" ")[0];
+		String[] ret = {bestmove,score};
+		return ret;
 
 	}
 	
