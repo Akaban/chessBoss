@@ -14,11 +14,11 @@ import chessBot.robotHelper;
 
 public class Main {
 
-	static playColor.color white = playColor.color.WHITE;
-	static playColor.color black = playColor.color.BLACK;
-	static playColor.color couleurDeJeu = null; //null = autodetect
+	static final playColor.color white = playColor.color.WHITE;
+	static final playColor.color black = playColor.color.BLACK;
+	static playColor.color couleurDeJeu = black; //null = autodetect
 	static playColor.color couleurEnnemi;
-	static final boolean capture = true; //si le bot doit capturer les screen des pieces
+	static final boolean capture = false; //si le bot doit capturer les screen des pieces
 	static int relance = 0;
 	
 	//static final String path = "./data/";
@@ -152,7 +152,7 @@ public class Main {
 		System.out.println(size);
 		
 		Echiquier e = new Echiquier(mouseLoc1.x,mouseLoc1.y,size,couleurDeJeu);
-		
+		//e.zeroCastle();
 		if(couleurDeJeu == null) //autodetect
 		{
 		Case casedetect = e.getEchiquier()[7][0];

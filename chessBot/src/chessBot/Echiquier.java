@@ -186,7 +186,7 @@ public class Echiquier {
 		else
 		{
 			black_kingside = false;
-			white_queenside = false;
+			black_queenside = false;
 		}
 	}
 	
@@ -197,7 +197,7 @@ public class Echiquier {
 		c2.setPiece(c1.getPiece());
 		c1.setEmpty();
 		
-		if(c1.hasKing() && this.canCastle )
+		if(c2.hasKing() && this.canCastle )
 		{
 			System.out.println("disabling castle");
 			disableCastle(this.botColor);
