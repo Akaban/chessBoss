@@ -37,7 +37,7 @@ public class Main {
 	//blitz 10 = 5000 ms
 	//blitz 3 = 2000 ms
 	//autre = 10000 ms
-	static final int botDelay = 150; //le temps que le bot met à reflechir
+	static final int botDelay = 3000; //le temps que le bot met à reflechir
 	
 	static double distance (Point p) {
 	    return (Math.sqrt(p.x * p.x + p.y * p.y));
@@ -87,7 +87,7 @@ public class Main {
 			e.inverseTurn();
 			//mise a jour echiquier
 			e.updateEchiquier(cases);
-			r.delay(1000);
+			r.delay(2000);
 		}
 		else{ // pas a lui de jouer
 			// lecture
@@ -98,11 +98,12 @@ public class Main {
 				int[][] sa1 = e.simpleArea();
 				int bint = Echiquier.equalSimpleAreaInt(old,e.simpleArea(),e);
 				
+				r.delay(800);
 				//r.delay(500);
 								
 				if(bint > 0){ //un mouvement = 2 différences
-					//r.delay(100);
-					//e.readPieces();
+					r.delay(100);
+					e.readPieces();
 					//bint = Echiquier.equalSimpleAreaInt(old,e.simpleArea(),e);
 					//if(bint < 1)
 					//{

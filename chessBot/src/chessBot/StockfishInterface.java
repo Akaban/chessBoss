@@ -72,7 +72,7 @@ public class StockfishInterface {
 	{
 		envoyerCommande("position fen " + fenstring);
 		envoyerCommande("go movetime " + wait);
-		//System.out.println(fenstring);
+		System.out.println(fenstring);
 		String s = recevoirSortie(20+wait);
 		//System.out.println(s);
 
