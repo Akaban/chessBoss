@@ -33,7 +33,7 @@ public class Main {
 		
 	static Case caseptr;
 	
-	static final int botDelay = 5000; //le temps que le bot met à reflechir
+	static final int botDelay = 3000; //le temps que le bot met à reflechir
 	
 	static double distance (Point p) {
 	    return (Math.sqrt(p.x * p.x + p.y * p.y));
@@ -52,17 +52,20 @@ public class Main {
 			catch(ArrayIndexOutOfBoundsException exception) //stockfish a planté
 			{
 				//on le relance sans les roque
-				if(relance == 3)
+				if(relance == 0)
 				{
 				System.out.println("Stockish a planté. On le relance sans roque");
+				r.delay(3000);
 				e.zeroCastle();
 				s.startOver();
+				e.readPieces();
 				relance++;
 				return;
 				}
-				else if (relance < 3)
+				else if (relance < -10)
 				{
 					r.delay(3000);
+					System.out.println(e.getFen());
 					s.startOver();
 					e.readPieces();
 					relance++;
@@ -93,13 +96,14 @@ public class Main {
 				
 				r.delay(3000);
 								
-				if(bint > 1){ //un mouvement = 2 différences
+				if(bint > 0){ //un mouvement = 2 différences
 					r.delay(100);
 					e.readPieces();
 					bint = Echiquier.equalSimpleAreaInt(old,e.simpleArea(),e);
-					if(bint < 2)
+					if(bint < 1)
 					{
 						System.out.println("En fait non je me suis trompé, ma bonne tante");
+						r.delay(2000);
 						break;
 					}
 					e.printEchiquier();
@@ -108,6 +112,11 @@ public class Main {
 				}
 				else{
 					System.out.println("oklm " + bint);
+					if(bint == 1)
+					{
+						System.out.println("Une difference qui est sur la case "
+								+ caseptr.getCoordString()+" j'y vois un " + caseptr.getPiece().toString());
+					}
 				}
 			}
 		}

@@ -79,7 +79,7 @@ public class Echiquier {
 			for(int i=0 ; i < 8; i++)
 			{
 				Piece p = getCase(i,j).getPiece();
-				if(p.getColor() == Main.couleurEnnemi)
+				if(p.getColor() == Main.couleurEnnemi && !p.isEmpty())
 				{
 				ret[j][i] = Piece.toIntEnum(p.getType());
 				}
@@ -304,6 +304,12 @@ public class Echiquier {
 		return true;
 	}
 	
+	public static Case indexEchiquier(Echiquier e,Case c)
+	{
+		return e.getCase(c.getYe(),c.getXe());
+		
+	}
+	
 	public static int equalSimpleAreaInt(int[][] a1,int[][] a2,Echiquier e)
 	{
 		int cpt=0;
@@ -311,7 +317,10 @@ public class Echiquier {
 			for(int j=0; j < 8; j++)
 			{
 				if(a1[i][j] != a2[i][j])
+				{
 					cpt++;
+					Main.caseptr = e.getCase(j, i);
+				}
 					
 			}
 		

@@ -64,6 +64,11 @@ public class Piece {
 		return type == nomPiece.King;
 	}
 	
+	public boolean isEmpty()
+	{
+		return type == nomPiece.Empty;
+	}
+	
 	public static String toStringEnum(nomPiece type)
 	{
 		String ret;
@@ -96,6 +101,11 @@ public class Piece {
 		}
 		return ret;
 		}
+	
+	public String toString()
+	{
+		return couleur.toString() +" " + toStringEnum(this.getType());
+	}
 	
 	public void setEmpty()
 	{
