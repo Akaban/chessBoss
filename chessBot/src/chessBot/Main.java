@@ -16,8 +16,8 @@ public class Main {
 
 	static playColor.color white = playColor.color.WHITE;
 	static playColor.color black = playColor.color.BLACK;
-	static playColor.color couleurDeJeu = white; //null = autodetect
-	static final boolean capture = false; //si le bot doit capturer les screen des pieces
+	static playColor.color couleurDeJeu = null; //null = autodetect
+	static final boolean capture = true; //si le bot doit capturer les screen des pieces
 	static boolean relance = false;
 	
 	//static final String path = "./data/";
@@ -32,6 +32,8 @@ public class Main {
 		
 	static Case caseptr;
 	
+	static final int botDelay = 5000; //le temps que le bot met à reflechir
+	
 	static double distance (Point p) {
 	    return (Math.sqrt(p.x * p.x + p.y * p.y));
 	    }
@@ -44,7 +46,7 @@ public class Main {
 			System.out.println("a moi de jouer");
 			String coup = null;
 			try {
-			coup = s.nextMove(e.getFen(), 1000);
+			coup = s.nextMove(e.getFen(), botDelay);
 			}
 			catch(ArrayIndexOutOfBoundsException exception) //stockfish a planté
 			{
@@ -80,9 +82,14 @@ public class Main {
 				int bint = Echiquier.equalSimpleAreaInt(old,e.simpleArea(),e);
 								
 				if(bint > 1){ //un mouvement = 2 différences
-					System.out.println("Changement joueur");
 					r.delay(100);
 					e.readPieces();
+					bint = Echiquier.equalSimpleAreaInt(old,e.simpleArea(),e);
+					if(bint < 2)
+					{
+						System.out.println("En fait non je me suis trompé, ma bonne tante");
+						break;
+					}
 					e.printEchiquier();
 					System.out.println("Changement joueur");
 					e.inverseTurn();
