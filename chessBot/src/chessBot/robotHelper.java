@@ -48,14 +48,14 @@ public class robotHelper {
 		for(Case c : cases){
 			Point loc = c.localisationPoint();
 			r.mouseMove(loc.x, loc.y);
-			r.delay(200);
+			r.delay(150);
 			r.mousePress(InputEvent.BUTTON1_MASK);
-			r.delay(200);
+			r.delay(150);
 			r.mouseRelease(InputEvent.BUTTON1_MASK);
-			r.delay(1000);
+			r.delay(200);
 			
 		}
-		r.delay(500);
+		//r.delay(100);
 		r.mouseMove(0, 0);
 		
 	}

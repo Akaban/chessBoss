@@ -33,7 +33,7 @@ public class Main {
 		
 	static Case caseptr;
 	
-	static final int botDelay = 3000; //le temps que le bot met à reflechir
+	static final int botDelay = 150; //le temps que le bot met à reflechir
 	
 	static double distance (Point p) {
 	    return (Math.sqrt(p.x * p.x + p.y * p.y));
@@ -44,7 +44,7 @@ public class Main {
 		
 		if(couleurDeJeu == e.getTurn()){ // a lui de jouer
 			//e.zeroCastle();
-			System.out.println("a moi de jouer");
+			//System.out.println("a moi de jouer");
 			String coup = null;
 			try {
 			coup = s.nextMove(e.getFen(), botDelay);
@@ -83,7 +83,7 @@ public class Main {
 			e.inverseTurn();
 			//mise a jour echiquier
 			e.updateEchiquier(cases);
-			r.delay(1000);
+			//r.delay(150);
 		}
 		else{ // pas a lui de jouer
 			// lecture
@@ -94,20 +94,20 @@ public class Main {
 				int[][] sa1 = e.simpleArea();
 				int bint = Echiquier.equalSimpleAreaInt(old,e.simpleArea(),e);
 				
-				r.delay(3000);
+				//r.delay(500);
 								
 				if(bint > 0){ //un mouvement = 2 différences
-					r.delay(100);
-					e.readPieces();
-					bint = Echiquier.equalSimpleAreaInt(old,e.simpleArea(),e);
-					if(bint < 1)
-					{
-						System.out.println("En fait non je me suis trompé, ma bonne tante");
-						r.delay(2000);
-						break;
-					}
-					e.printEchiquier();
-					System.out.println("Changement joueur");
+					//r.delay(100);
+					//e.readPieces();
+					//bint = Echiquier.equalSimpleAreaInt(old,e.simpleArea(),e);
+					//if(bint < 1)
+					//{
+					//	System.out.println("En fait non je me suis trompé, ma bonne tante");
+					//	r.delay(1000);
+					//	break;
+					//}
+					//e.printEchiquier();
+					//System.out.println("Changement joueur");
 					e.inverseTurn();
 				}
 				else{
