@@ -33,6 +33,10 @@ public class Main {
 		
 	static Case caseptr;
 	
+	//bullet = 150 ms
+	//blitz 10 = 5000 ms
+	//blitz 3 = 2000 ms
+	//autre = 10000 ms
 	static final int botDelay = 150; //le temps que le bot met à reflechir
 	
 	static double distance (Point p) {
@@ -55,7 +59,7 @@ public class Main {
 				if(relance == 0)
 				{
 				System.out.println("Stockish a planté. On le relance sans roque");
-				r.delay(3000);
+				r.delay(1000);
 				e.zeroCastle();
 				s.startOver();
 				e.readPieces();
@@ -83,7 +87,7 @@ public class Main {
 			e.inverseTurn();
 			//mise a jour echiquier
 			e.updateEchiquier(cases);
-			//r.delay(150);
+			r.delay(1000);
 		}
 		else{ // pas a lui de jouer
 			// lecture
