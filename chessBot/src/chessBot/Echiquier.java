@@ -79,7 +79,13 @@ public class Echiquier {
 			for(int i=0 ; i < 8; i++)
 			{
 				Piece p = getCase(i,j).getPiece();
-				ret[j][i] = Piece.toIntEnum(p.getType()) + 10 * playColor.toIntColor(p.getColor());
+				if(p.getColor() == Main.couleurEnnemi)
+				{
+				ret[j][i] = Piece.toIntEnum(p.getType());
+				}
+				else {
+					ret[j][i] = 8;
+				}
 				
 			}
 		}

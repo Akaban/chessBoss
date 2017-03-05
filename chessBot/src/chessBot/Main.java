@@ -17,8 +17,9 @@ public class Main {
 	static playColor.color white = playColor.color.WHITE;
 	static playColor.color black = playColor.color.BLACK;
 	static playColor.color couleurDeJeu = null; //null = autodetect
+	static playColor.color couleurEnnemi;
 	static final boolean capture = true; //si le bot doit capturer les screen des pieces
-	static boolean relance = false;
+	static int relance = 0;
 	
 	//static final String path = "./data/";
 	//static final String path = "C:\\Users\\Seven\\Documents\\git\\chessBot\\data\\";
@@ -42,7 +43,7 @@ public class Main {
 	public static void jeu(Echiquier e, StockfishInterface s, Robot r) throws IOException, InterruptedException, AWTException{
 		
 		if(couleurDeJeu == e.getTurn()){ // a lui de jouer
-			
+			//e.zeroCastle();
 			System.out.println("a moi de jouer");
 			String coup = null;
 			try {
@@ -51,13 +52,21 @@ public class Main {
 			catch(ArrayIndexOutOfBoundsException exception) //stockfish a planté
 			{
 				//on le relance sans les roque
-				if(!relance)
+				if(relance == 3)
 				{
 				System.out.println("Stockish a planté. On le relance sans roque");
 				e.zeroCastle();
 				s.startOver();
-				relance=true;
+				relance++;
 				return;
+				}
+				else if (relance < 3)
+				{
+					r.delay(3000);
+					s.startOver();
+					e.readPieces();
+					relance++;
+					return;
 				}
 				else
 				{
@@ -71,6 +80,7 @@ public class Main {
 			e.inverseTurn();
 			//mise a jour echiquier
 			e.updateEchiquier(cases);
+			r.delay(1000);
 		}
 		else{ // pas a lui de jouer
 			// lecture
@@ -80,6 +90,8 @@ public class Main {
 				e.readPieces();
 				int[][] sa1 = e.simpleArea();
 				int bint = Echiquier.equalSimpleAreaInt(old,e.simpleArea(),e);
+				
+				r.delay(3000);
 								
 				if(bint > 1){ //un mouvement = 2 différences
 					r.delay(100);
@@ -135,6 +147,10 @@ public class Main {
 		couleurDeJeu = casedetect.detectColorPiece(img);
 		e = new Echiquier(mouseLoc1.x,mouseLoc1.y,size,couleurDeJeu);
 		}
+		
+		couleurEnnemi = playColor.inverseColor(couleurDeJeu);
+		
+		System.out.println(couleurEnnemi.toString());
 
 		
 		

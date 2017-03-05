@@ -13,4 +13,16 @@ public class playColor {
 			return 1;
 	}
 	
+	public static color inverseColor(color c)
+	{
+		if(c == color.BLACK)
+		{
+			return color.WHITE;
+		}
+		else
+		{
+			return color.BLACK;
+		}
+	}
+	
 }

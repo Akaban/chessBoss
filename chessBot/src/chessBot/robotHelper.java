@@ -53,6 +53,7 @@ public class robotHelper {
 			r.delay(20);
 			r.mouseRelease(InputEvent.BUTTON1_MASK);
 			r.delay(20);
+			r.mouseMove(0, 0);
 		}
 		
 	}
