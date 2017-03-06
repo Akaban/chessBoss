@@ -16,10 +16,17 @@ public class Main {
 
 	static final playColor.color white = playColor.color.WHITE;
 	static final playColor.color black = playColor.color.BLACK;
+	
 	static playColor.color couleurDeJeu = null; //null = autodetect
-	static playColor.color couleurEnnemi;
 	static final boolean capture = false; //si le bot doit capturer les screen des pieces
+
+	//random
+	static final double factorDelayMin = 0.5d; //au minimum 0.5 * botDelay
+	static final double factorDelayMax = 1.3d; //au maximum 1.2 * botDelay
+	
+	
 	static int relance = 0;
+	static playColor.color couleurEnnemi;
 	
 	//static final String path = "./data/";
 	//static final String path = "C:\\Users\\Seven\\Documents\\git\\chessBot\\data\\";
@@ -37,7 +44,7 @@ public class Main {
 	//blitz 10 = 5000 ms
 	//blitz 3 = 2000 ms
 	//autre = 10000 ms
-	static final int botDelay = 2000; //le temps que le bot met à reflechir
+	static final int botDelay = 2500; //le temps que le bot met à reflechir
 	
 	static double distance (Point p) {
 	    return (Math.sqrt(p.x * p.x + p.y * p.y));
@@ -53,8 +60,9 @@ public class Main {
 			String coup=null;
 			String score=null;
 			String score_t=null;
+			int randomDelayFactor =(int) (factorDelayMin + (Math.random() * (factorDelayMax - factorDelayMin)));
 			try {
-			nextMove = s.nextMove(e.getFen(), botDelay);
+			nextMove = s.nextMove(e.getFen(), botDelay * randomDelayFactor);
 			coup=nextMove[0];
 			score_t = nextMove[1].split(" ")[0];
 			score = nextMove[1].split(" ")[1];
@@ -66,7 +74,7 @@ public class Main {
 				if(relance == 0)
 				{
 				System.out.println("Stockish a planté. On le relance sans roque");
-				r.delay(1000);
+				//r.delay(500);
 				e.zeroCastle();
 				s.startOver();
 				e.readPieces();
@@ -104,7 +112,7 @@ public class Main {
 			
 			//mise a jour echiquier
 			e.updateEchiquier(cases);
-			r.delay(2000);
+			r.delay(1000);
 			
 		}
 		else{ // pas a lui de jouer
