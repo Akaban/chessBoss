@@ -16,7 +16,7 @@ public class Main {
 
 	static final playColor.color white = playColor.color.WHITE;
 	static final playColor.color black = playColor.color.BLACK;
-	static playColor.color couleurDeJeu = black; //null = autodetect
+	static playColor.color couleurDeJeu = null; //null = autodetect
 	static playColor.color couleurEnnemi;
 	static final boolean capture = false; //si le bot doit capturer les screen des pieces
 	static int relance = 0;
@@ -37,7 +37,7 @@ public class Main {
 	//blitz 10 = 5000 ms
 	//blitz 3 = 2000 ms
 	//autre = 10000 ms
-	static final int botDelay = 3000; //le temps que le bot met à reflechir
+	static final int botDelay = 2000; //le temps que le bot met à reflechir
 	
 	static double distance (Point p) {
 	    return (Math.sqrt(p.x * p.x + p.y * p.y));
@@ -49,9 +49,16 @@ public class Main {
 		if(couleurDeJeu == e.getTurn()){ // a lui de jouer
 			//e.zeroCastle();
 			//System.out.println("a moi de jouer");
-			String coup = null;
+			String[] nextMove = null;
+			String coup=null;
+			String score=null;
+			String score_t=null;
 			try {
-			coup = s.nextMove(e.getFen(), botDelay);
+			nextMove = s.nextMove(e.getFen(), botDelay);
+			coup=nextMove[0];
+			score_t = nextMove[1].split(" ")[0];
+			score = nextMove[1].split(" ")[1];
+			
 			}
 			catch(ArrayIndexOutOfBoundsException exception) //stockfish a planté
 			{
@@ -85,9 +92,20 @@ public class Main {
 			Case[] cases = e.PGNtoPtr(coup);
 			robotHelper.jouerCoup(cases, r);
 			e.inverseTurn();
+			
+			if(score.equals("1") && score_t.equals("mate"))
+			{
+				//fin du game
+				System.out.println("Fin du film");
+				System.out.println("You've got chessBoss'd");
+				System.exit(0);
+			}
+			
+			
 			//mise a jour echiquier
 			e.updateEchiquier(cases);
 			r.delay(2000);
+			
 		}
 		else{ // pas a lui de jouer
 			// lecture
@@ -101,7 +119,7 @@ public class Main {
 				r.delay(800);
 				//r.delay(500);
 								
-				if(bint > 0){ //un mouvement = 2 différences
+				if(bint > 0){ 
 					r.delay(100);
 					e.readPieces();
 					//bint = Echiquier.equalSimpleAreaInt(old,e.simpleArea(),e);
@@ -164,7 +182,7 @@ public class Main {
 		
 		couleurEnnemi = playColor.inverseColor(couleurDeJeu);
 		
-		System.out.println(couleurEnnemi.toString());
+		//System.out.println(couleurEnnemi.toString());
 
 		
 		
