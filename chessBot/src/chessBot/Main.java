@@ -21,8 +21,8 @@ public class Main {
 	static final boolean capture = false; //si le bot doit capturer les screen des pieces
 
 	//random
-	static final double factorDelayMin = 0.5d; //au minimum 0.5 * botDelay
-	static final double factorDelayMax = 1.3d; //au maximum 1.2 * botDelay
+	static final double factorDelayMin = 0.5d; //au minimum factorDelayMin * botDelay
+	static final double factorDelayMax = 1.3d; //au maximum factorDelayMax * botDelay
 	
 	
 	static int relance = 0;
@@ -60,9 +60,9 @@ public class Main {
 			String coup=null;
 			String score=null;
 			String score_t=null;
-			int randomDelayFactor =(int) (factorDelayMin + (Math.random() * (factorDelayMax - factorDelayMin)));
+			double randomDelayFactor =(factorDelayMin + (Math.random() * (factorDelayMax - factorDelayMin)));
 			try {
-			nextMove = s.nextMove(e.getFen(), botDelay * randomDelayFactor);
+			nextMove = s.nextMove(e.getFen(), (int) (botDelay * randomDelayFactor));
 			coup=nextMove[0];
 			score_t = nextMove[1].split(" ")[0];
 			score = nextMove[1].split(" ")[1];
