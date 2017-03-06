@@ -21,8 +21,19 @@ public class Main {
 	static final boolean capture = false; //si le bot doit capturer les screen des pieces
 
 	//random
-	static final double factorDelayMin = 0.3d; //au minimum factorDelayMin * botDelay
-	static final double factorDelayMax = 2d; //au maximum factorDelayMax * botDelay
+	static double factorDelayMin = 0.3d; //au minimum factorDelayMin * botDelay
+	static double factorDelayMax = 2d; //au maximum factorDelayMax * botDelay
+	
+	//botDelay
+
+	//bullet = 150 ms
+	//blitz 10 = 5000 ms
+	//blitz 3 = 2000 ms
+	//autre = 10000 ms
+	static final int botDelay = 150; //le temps que le bot met à reflechir
+	static final double botDelayOpeningFactor = 0.5; //botDelayOpening * botDelay = le temps que le bot met à reflechir pendant l'opening
+	static final int openingBounds = 4; //passé ce nombre de coups le bot considère que ce n'est plus l'opening
+	static final int accelerationFactor = 8; //Tout les accelerationFactor coup diminue factorDelayMax de factorDelayMin
 	
 	//TODO
 	//Plus le temps passe moins le bot doit prendre de temps
@@ -44,12 +55,6 @@ public class Main {
 		
 	static Case caseptr;
 	
-	//bullet = 150 ms
-	//blitz 10 = 5000 ms
-	//blitz 3 = 2000 ms
-	//autre = 10000 ms
-	static final int botDelay = 2500; //le temps que le bot met à reflechir
-	
 	static double distance (Point p) {
 	    return (Math.sqrt(p.x * p.x + p.y * p.y));
 	    }
@@ -60,11 +65,20 @@ public class Main {
 		if(couleurDeJeu == e.getTurn()){ // a lui de jouer
 			//e.zeroCastle();
 			//System.out.println("a moi de jouer");
+			
+			if(e.getNbCoup() % accelerationFactor == 0)
+				factorDelayMax -= factorDelayMin;
+			
 			String[] nextMove = null;
 			String coup=null;
 			String score=null;
 			String score_t=null;
-			double randomDelayFactor =(factorDelayMin + (Math.random() * (factorDelayMax - factorDelayMin)));
+			double randomDelayFactor;
+			if (e.getNbCoup() <= openingBounds)
+				randomDelayFactor = botDelayOpeningFactor;
+			else
+				randomDelayFactor =(factorDelayMin + (Math.random() * (factorDelayMax - factorDelayMin)));
+			
 			try {
 			nextMove = s.nextMove(e.getFen(), (int) (botDelay * randomDelayFactor));
 			coup=nextMove[0];
@@ -131,11 +145,11 @@ public class Main {
 				int[][] sa1 = e.simpleArea();
 				int bint = Echiquier.equalSimpleAreaInt(old,e.simpleArea(),e);
 				
-				r.delay(800);
+				
 				//r.delay(500);
 								
 				if(bint > 0){ 
-					r.delay(100);
+					r.delay(400);
 					e.readPieces();
 					//bint = Echiquier.equalSimpleAreaInt(old,e.simpleArea(),e);
 					//if(bint < 1)
