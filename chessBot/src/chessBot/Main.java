@@ -21,9 +21,13 @@ public class Main {
 	static final boolean capture = false; //si le bot doit capturer les screen des pieces
 
 	//random
-	static final double factorDelayMin = 0.5d; //au minimum factorDelayMin * botDelay
-	static final double factorDelayMax = 1.3d; //au maximum factorDelayMax * botDelay
+	static final double factorDelayMin = 0.3d; //au minimum factorDelayMin * botDelay
+	static final double factorDelayMax = 2d; //au maximum factorDelayMax * botDelay
 	
+	//TODO
+	//Plus le temps passe moins le bot doit prendre de temps
+	//workaround : diminuer factorDelayMax de y tout les x coups?
+	//ce serait sympa d'avoir le timer mais peut être overkill
 	
 	static int relance = 0;
 	static playColor.color couleurEnnemi;
@@ -101,6 +105,9 @@ public class Main {
 			robotHelper.jouerCoup(cases, r);
 			e.inverseTurn();
 			
+			if(couleurDeJeu == playColor.color.BLACK)
+				e.augmenterNbCoup();
+			
 			if(score.equals("1") && score_t.equals("mate"))
 			{
 				//fin du game
@@ -140,6 +147,9 @@ public class Main {
 					//e.printEchiquier();
 					//System.out.println("Changement joueur");
 					e.inverseTurn();
+					
+					if(couleurEnnemi == playColor.color.BLACK)
+						e.augmenterNbCoup();
 				}
 				else{
 					System.out.println("oklm " + bint);

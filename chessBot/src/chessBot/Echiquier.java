@@ -62,6 +62,16 @@ public class Echiquier {
 		return this.botColor == playColor.color.WHITE;
 	}
 	
+	public void augmenterNbCoup()
+	{
+		this.nbCoups++;
+	}
+	
+	public int getNbCoup()
+	{
+		return this.nbCoups;
+	}
+	
 	public Case getCase(int i,int j)
 	{
 		if (botColor == playColor.color.WHITE)
