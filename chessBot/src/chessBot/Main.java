@@ -164,7 +164,7 @@ public class Main {
 		
 	}
 	
-	public static void main(String[] args) throws InterruptedException, AWTException, IOException
+	public static void main(String[] args) throws Exception
 	{
 		Robot r = new Robot();
 		
@@ -175,15 +175,9 @@ public class Main {
 		mouseLoc2 = new Point(coord[0],coord[1]);
 		mouseLoc2.translate(-mouseLoc1.x, -mouseLoc1.y);
 		size=(int)distance(mouseLoc2);
-		
-		if (size == 6000)
-			try {
-				throw new Exception("Echiquier non trouvÃ© !");
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-				System.exit(1);
-			}
+				
+		if(size == 6000)
+			throw new Exception("Echiquier non trouvé !");
 		
 		System.out.println(size);
 		
