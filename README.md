@@ -21,6 +21,9 @@ still need a nice graphic interface to be complete, maybe I will add it someday.
 ## Useful settings in Main.java
 
 boolean capture: if set to true then the bot will capture each piece as its basis for further recognition (and store it)
+
+Note about capture: The program will take a screenshot of the ennemy's pieces as its basis, the leftmost ones. So if the program start on a chessboard with some of theses pieces missing then it will fail. This is why we have the capture option, if you captured the right pieces already (for a chessboard on chess.com of the same size) then you won't need to do it again and you can set the boolean capture to false in order to start the program on a chessboard that is not the initial position.
+
 playColor.color couleurDeJeu: if set to null then the bot will try to auto detect the player's color (it looks for the left tower), but
 it can also be set to white or black manually
 
