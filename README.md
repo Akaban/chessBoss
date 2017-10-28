@@ -1,4 +1,4 @@
-# projetPFA
+# chessBoss
 
 A bot for playing chess on chess.com
 
