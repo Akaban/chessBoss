@@ -144,7 +144,6 @@ public class robotHelper {
 	
 	public static BufferedImage traitementContour(BufferedImage img,Color couleurFond)
 	{
-		//TODO Besoin de d�tection de la couleur de case
 		BufferedImage ret = deepCopy(img);
 		double fuzziness = 0.05;
 		double maxDistance = 441 * fuzziness;
@@ -185,37 +184,7 @@ public class robotHelper {
 		return ret;
 	}
 	
-	/*public static Piece.nomPiece findPiece(Rectangle rectangle,boolean couleurCase,int decay) throws AWTException, IOException
-	{
-		BufferedImage lookingAt = traitementContour(new Robot().createScreenCapture(rectangle),couleurCase);
-		ImageIO.write(lookingAt, "png", new File(Main.path + "looking"+".png"));
-		
-		double min = 10d;
-		int minp=0;
-		double match = 0;//metrique
-			for(int p=0; p < 6; p++)
-			{
-				BufferedImage dataPiece = Piece.dataPiece[p]; 
-				//match = matchContours(lookingAt,dataPiece);
-				if(match == (-1d)) return null;
-				System.out.println("Ressemblance avec la piece " + Piece.toStringEnum(Piece.mapPiece[p])+"= " + match);
-				if (match < min)
-				{
-					min = match;
-					minp = p;
-				}
-								
-			}
-			
-			if (min > 0.5d) return null;
-			
-			System.out.println("Nearest piece is therefore: " + Piece.toStringEnum(Piece.mapPiece[minp]));
-		
-		
-		return Piece.mapPiece[minp];
-	}*/
-	
-	public static void whatDoISee(Echiquier echiquier) throws AWTException, IOException
+		public static void whatDoISee(Echiquier echiquier) throws AWTException, IOException
 	{
 		Case[][] data=echiquier.getEchiquier();
 		for(int i=0; i < 8;i++) for(int j=0;j < 8; j++)
@@ -234,7 +203,7 @@ public class robotHelper {
 			
 	}
 	
-	public static int[] findEchiquierChess() throws AWTException 
+	public static int[] findEchiquierChess() throws AWTException //TODO A améliorer 
 	{
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		BufferedImage screen = new Robot().createScreenCapture(new Rectangle(0,0,dim.width,dim.height));
@@ -297,7 +266,7 @@ public class robotHelper {
 		adjustRectangle(rectangle,sizecase);
 		try {
 			img = new Robot().createScreenCapture(rectangle);
-			ImageIO.write(img, "png", new File("C:\\Users\\Seven\\workspace\\chessBot\\data\\screenshot"+countScreen+".png"));
+			ImageIO.write(img, "png", new File("~/chessbot/"+countScreen+".png"));
 			countScreen++;
 		} catch (IOException e) {
 			e.printStackTrace();

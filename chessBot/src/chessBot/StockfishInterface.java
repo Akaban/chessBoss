@@ -11,22 +11,21 @@ public class StockfishInterface {
 	private BufferedReader stockfishReader;
 	private OutputStreamWriter stockfishWriter;
 	
-	private static final String STOCKFISH = "C:\\Users\\Seven\\Documents\\stockfish-8-win\\Windows\\stockfish_8_x64.exe";
-	//private static final String STOCKFISH = "stockfish";
+	private static final String STOCKFISH = "stockfish";
+
+  public void startOver() throws IOException
+	{
+		stockfishProcess = Runtime.getRuntime().exec(STOCKFISH);
+		stockfishReader = new BufferedReader(new InputStreamReader(stockfishProcess.getInputStream()));
+		stockfishWriter = new OutputStreamWriter(stockfishProcess.getOutputStream());
+	}
 	
 	public StockfishInterface() throws IOException
 	{
-		stockfishProcess = Runtime.getRuntime().exec(STOCKFISH);
-		stockfishReader = new BufferedReader(new InputStreamReader(stockfishProcess.getInputStream()));
-		stockfishWriter = new OutputStreamWriter(stockfishProcess.getOutputStream());
+    this.startOver();
 	}
 	
-	public void startOver() throws IOException
-	{
-		stockfishProcess = Runtime.getRuntime().exec(STOCKFISH);
-		stockfishReader = new BufferedReader(new InputStreamReader(stockfishProcess.getInputStream()));
-		stockfishWriter = new OutputStreamWriter(stockfishProcess.getOutputStream());
-	}
+	
 	
 	public void envoyerCommande(String commande) throws IOException
 	{
@@ -45,7 +44,6 @@ public class StockfishInterface {
 		StringBuffer buffer = new StringBuffer();
 		Thread.sleep(wait);
 		try {
-			//envoyerCommande("isready");
 			while(true)
 			{
 				String retour = stockfishReader.readLine();
@@ -53,7 +51,7 @@ public class StockfishInterface {
 				if(retour.contains("bestmove"))
 				{
 					buffer.append(retour +"\n");
-					break; //On a r�cup�r� toute la sortie
+					break; //On a récupéré toute la sortie
 				}
 				else {
 					buffer.append(retour+"\n");
@@ -74,7 +72,6 @@ public class StockfishInterface {
 		envoyerCommande("go movetime " + wait);
 		System.out.println(fenstring);
 		String s = recevoirSortie(20+wait);
-		//System.out.println(s);
 		String[] lines = s.split("\n");
 		String score = "";
 		if (lines.length > 2)
@@ -86,8 +83,6 @@ public class StockfishInterface {
 		String[] ret = {s.split("bestmove ")[1].split(" ")[0],score};
 		
 		return ret;
-		//String[] ret = {bestmove,score};
-		//return ret;
 
 	}
 	

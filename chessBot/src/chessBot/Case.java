@@ -166,45 +166,6 @@ public class Case {
 		}
 	}
 	
-	/*public Color detectColor(BufferedImage img) throws IOException
-	{
-		Point loc = adjustedRectangle.getLocation();
-		int size = (int)adjustedRectangle.getWidth();
-		Rectangle r = new Rectangle(loc.x, loc.y,size/4,size/4);
-		int countBs=0;
-		int countVs=0;
-		
-		//ImageIO.write(img, "png", new File (Main.path + "detection-" + k + "-" + x +".png"));
-		
-		for(int i=0; i < img.getWidth(); i++)
-			for(int j=0; j< img.getHeight();j++)
-			{
-				Color c = new Color(img.getRGB(i, j));
-				if (c.equals(vert_select))
-				{
-					countVs+=1;
-					//System.out.println("v");
-				}
-				else if (c.equals(blanc_select))
-				{
-					countBs+=1;
-					//System.out.println("b");
-				}
-			}
-		
-		//System.out.println("I see bs = " + countBs +" and countVs = " + countVs);
-		
-		if (countVs < 20 && countBs < 20)
-			return defaultColor();
-		if (countVs > countBs)
-			return vert_select;
-		else
-			return blanc_select;
-		
-		
-	}
-*/	
-	
 	public static int distanceColor(Color c1,Color c2)
 	{
 		int rDelta = c1.getRed() - c2.getRed();
@@ -246,7 +207,6 @@ public class Case {
 		
 		Map<Color,Integer> colorCounter=new HashMap<Color,Integer>();
 		
-		//ImageIO.write(img, "png", new File (Main.path + "detection-" + k + "-" + x +".png"));
 		
 		for(int i=0; i < img.getWidth(); i++)
 			for(int j=0; j< img.getHeight();j++)

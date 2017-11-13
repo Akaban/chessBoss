@@ -30,15 +30,15 @@ public class Main {
 	//blitz 10 = 5000 ms
 	//blitz 3 = 2000 ms
 	//autre = 10000 ms
-	static final int botDelay = 150; //le temps que le bot met à reflechir
-	static final double botDelayOpeningFactor = 0.5; //botDelayOpening * botDelay = le temps que le bot met à reflechir pendant l'opening
-	static final int openingBounds = 4; //passé ce nombre de coups le bot considère que ce n'est plus l'opening
+	static final int botDelay = 150; //le temps que le bot met Ã  reflechir
+	static final double botDelayOpeningFactor = 0.5; //botDelayOpening * botDelay = le temps que le bot met Ã  reflechir pendant l'opening
+	static final int openingBounds = 4; //passÃ© ce nombre de coups le bot considÃ¨re que ce n'est plus l'opening
 	static final int accelerationFactor = 8; //Tout les accelerationFactor coup diminue factorDelayMax de factorDelayMin
 	
 	//TODO
 	//Plus le temps passe moins le bot doit prendre de temps
 	//workaround : diminuer factorDelayMax de y tout les x coups?
-	//ce serait sympa d'avoir le timer mais peut être overkill
+	//ce serait sympa d'avoir le timer mais peut Ãªtre overkill
 	
 	static int relance = 0;
 	static playColor.color couleurEnnemi;
@@ -63,7 +63,6 @@ public class Main {
 	public static void jeu(Echiquier e, StockfishInterface s, Robot r) throws IOException, InterruptedException, AWTException{
 		
 		if(couleurDeJeu == e.getTurn()){ // a lui de jouer
-			//e.zeroCastle();
 			//System.out.println("a moi de jouer");
 			
 			if(e.getNbCoup() % accelerationFactor == 0)
@@ -86,27 +85,17 @@ public class Main {
 			score = nextMove[1].split(" ")[1];
 			
 			}
-			catch(ArrayIndexOutOfBoundsException exception) //stockfish a planté
+			catch(ArrayIndexOutOfBoundsException exception) //stockfish a plantÃ©
 			{
 				//on le relance sans les roque
 				if(relance == 0)
 				{
-				System.out.println("Stockish a planté. On le relance sans roque");
-				//r.delay(500);
+				System.out.println("Stockish a plantÃ©. On le relance sans roque");
 				e.zeroCastle();
 				s.startOver();
 				e.readPieces();
 				relance++;
 				return;
-				}
-				else if (relance < -10)
-				{
-					r.delay(3000);
-					System.out.println(e.getFen());
-					s.startOver();
-					e.readPieces();
-					relance++;
-					return;
 				}
 				else
 				{
@@ -133,7 +122,7 @@ public class Main {
 			
 			//mise a jour echiquier
 			e.updateEchiquier(cases);
-			r.delay(1000);
+			r.delay(400);
 			
 		}
 		else{ // pas a lui de jouer
@@ -151,27 +140,10 @@ public class Main {
 				if(bint > 0){ 
 					r.delay(400);
 					e.readPieces();
-					//bint = Echiquier.equalSimpleAreaInt(old,e.simpleArea(),e);
-					//if(bint < 1)
-					//{
-					//	System.out.println("En fait non je me suis trompé, ma bonne tante");
-					//	r.delay(1000);
-					//	break;
-					//}
-					//e.printEchiquier();
-					//System.out.println("Changement joueur");
 					e.inverseTurn();
 					
 					if(couleurEnnemi == playColor.color.BLACK)
 						e.augmenterNbCoup();
-				}
-				else{
-					System.out.println("oklm " + bint);
-					if(bint == 1)
-					{
-						System.out.println("Une difference qui est sur la case "
-								+ caseptr.getCoordString()+" j'y vois un " + caseptr.getPiece().toString());
-					}
 				}
 			}
 		}
@@ -183,7 +155,7 @@ public class Main {
 		Robot r = new Robot();
 		
 
-		int[] coord = robotHelper.findEchiquierChess();
+		int[] coord = robotHelper.findEchiquierChess(); //TODO AmÃ©liorer la fonction findEchiquierChess (fonctionne uniquement avec les couleurs de pixels)
 
 		mouseLoc1 = new Point(coord[2],coord[3]);
 		mouseLoc2 = new Point(coord[0],coord[1]);
@@ -191,7 +163,7 @@ public class Main {
 		size=(int)distance(mouseLoc2);
 				
 		if(size == 6000)
-			throw new Exception("Echiquier non trouvé !");
+			throw new Exception("Echiquier non trouvÃ© !");
 		
 		System.out.println(size);
 		
@@ -208,10 +180,6 @@ public class Main {
 		
 		couleurEnnemi = playColor.inverseColor(couleurDeJeu);
 		
-		//System.out.println(couleurEnnemi.toString());
-
-		
-		
 		Piece.initImageData(e,capture);
 		
 		e.readPieces();
@@ -224,62 +192,7 @@ public class Main {
 		while(true) {
 			jeu(e, s, r);
 		}
-		
-		//echiquier[0][0].findPiece();
-		
-		//robotHelper.whatDoISee(e);
-		
-		/*for(int j=0; j < 8 ; j++)
-		{
-			for(int i=0;  i< 8; i++)
-			{
-				int decay=0;
-				if(j == 7) decay=6;
-				Case c = echiquier[j][i];
-				Rectangle r = c.getRectangle();
-				robotHelper.adjustRectangle(r,size/17);
-				String casename = (j+1) + "-" + (i+1);
-				ImageIO.write(new Robot().createScreenCapture(r), "png", new File(Main.path + "looking"+casename+".png"));	
-			}
-		}*/
-		
-		//robotHelper.whatDoISee(e);
-		
-	//	echiquier[0][6].findPiece();
-		
-		
-/*		for(int j=0; j < 8 ; j++)
-		{
-			for(int i=0;  i< 8; i++)
-			{
-			System.out.print(echiquier[j][i].PieceToChar());	
-			}
-			System.out.print("\n");
-		}*/
-		
-		
-		//for(int i=0; i < 8 ; i++) robotHelper.screenshotMaker(echiquier[i][6].getRectangle(), "null");
-		//robotHelper.screenshotMaker(echiquier[3][5].getRectangle(), "");
-//		
-//		Robot r = new Robot();
-//		
-//		r.delay(5000);
-//		
-//		for(int j=0; j < 8 ; j++)
-//		{
-//			for(int i=0;  i< 8; i++)
-//			{
-//				Case c = echiquier[i][j];
-//				r.mouseMove((int)c.getRectangle().getCenterX(),(int) c.getRectangle().getCenterY());
-//				r.delay(4000);
-//			}
-//			System.out.print("\n");
-//		}
-//		
-
 
 	}
-
-
 
 }

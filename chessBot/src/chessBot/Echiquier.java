@@ -336,9 +336,5 @@ public class Echiquier {
 		
 		return cpt;
 	}
-	
-	//Faire des fonctions de d�tections de roque et savoir �galement d�tecter quand le mec a jou� (un changement).
-	
-
 
 }
